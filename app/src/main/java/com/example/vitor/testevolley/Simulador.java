@@ -37,8 +37,9 @@ public class Simulador extends AppCompatActivity {
     private int saidaSelecionada;
 
     List<Estacao> estacao = new ArrayList<Estacao>() ;
-    final String url = "http://192.168.15.9:8080/TesteJson/estacao/getEstacoes";
-
+    final String url = "http://192.168.15.7:8080/WebServiceSPPD/sppd/getListaEstacao";
+    //192.168.0.120 wifi lab 202
+    //192.168.15.7 wifi casa
 
     //Tive que montar 2 lista pois não da pra mandar um objeto pro spinner
     //Então um mostra as estacoes e com base no retorno do spinner eu valido qual o id da mesma
@@ -125,14 +126,14 @@ public class Simulador extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray arr = response.getJSONArray("estacaoBean");
+                            Log.i("TESTE", "onResponse: " + response);
+                            JSONArray arr = response.getJSONArray("estacao");
                             for(int i = 0; i < arr.length(); i++){
                                 JSONObject jo = arr.getJSONObject(i);
                                 int cod = Integer.parseInt(jo.getString("codEstacao"));
                                 int linha = Integer.parseInt(jo.getString("linha"));
                                 String nome = jo.getString("nome");
                                 estacao.add(new Estacao(cod,linha,nome));
-
                             }
                         } catch (JSONException e1) {
                             Log.i("PARSE", "onResponse: " + e1);
@@ -159,9 +160,6 @@ public class Simulador extends AppCompatActivity {
                 Log.i("ERROR", "onErrorResponse: " + error );
             }
         });
-
         request.add(requisicao);
-
-
     }
 }

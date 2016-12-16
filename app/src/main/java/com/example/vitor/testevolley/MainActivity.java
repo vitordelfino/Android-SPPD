@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView t;
     private EditText e;
     private Map<String, String> params;
-    final String url = "http://192.168.15.9:8080/TesteJson/estacao/getEstacoes";
+    final String url = "http://192.168.15.7:8080/TesteJson/estacao/getEstacoes";
     List<Estacao> estacao = new ArrayList<Estacao>() ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,10 @@
 package com.example.vitor.testevolley;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +26,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
-
+    private ProgressDialog dialog;
     EditText usuario;
     EditText senha;
+
+    Retorno retorno = new Retorno();
+    Passageiro passageiro = new Passageiro();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +45,63 @@ public class Login extends AppCompatActivity {
     }
 
     public void logar(View view){
-        Toast.makeText(this, "REALIZANDO LOGIN+\nusuario: " +
-                usuario.getText().toString()+"\nsenha: "+
-                senha.getText().toString(), Toast.LENGTH_SHORT).show();
-        realizarLogin(usuario.getText().toString(), senha.getText().toString());
+        dialog = ProgressDialog.show(Login.this,"Processando","Confirmando dados....", false, true);
+        dialog.setCancelable(false);
+        new Thread() {
+            public void run() {
+                try {
+                    realizarLogin(usuario.getText().toString(), senha.getText().toString(),
+                            new VolleyCallback() {
+                                @Override
+                                public void onSuccess(JSONObject result) {
+                                    try {
 
+                                        result = result.getJSONObject("loginBean");
+                                        retorno.setRetorno(Boolean.parseBoolean(result.getString("retorno")));
+                                        retorno.setStatusRetorno(result.getString("statusRetorno"));
+
+                                        result = result.getJSONObject("passageiro");
+                                        passageiro.setNome(result.getString("nome"));
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+
+                    Thread.sleep(1500);
+
+                }catch (Exception e) {
+                }
+                dialog.dismiss();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (retorno.isRetorno()) {
+                            Toast.makeText(Login.this, retorno.getStatusRetorno() + "\n" + passageiro.getNome(), Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(Login.this, Simulador.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(intent);
+                            finish();
+
+                        } else {
+                            Toast.makeText(Login.this, retorno.getStatusRetorno(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+
+                });
+            }
+        }.start();
+
+    }
+
+    public void registrar(View view){
+
+    }
+
+    public void realizarLogin(String usuario, String senha, final VolleyCallback callback){
         String url = "http://192.168.15.7:8080/WebServiceSPPD/sppd/logar"+"/"+usuario+"/"+senha;
-        Log.d("TESTE", "realizarLogin: " + url);
         final RequestQueue request = Volley.newRequestQueue(this);
 
         final JsonObjectRequest requisicao = new JsonObjectRequest(Request.Method.GET, url,
@@ -52,14 +110,8 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.i("TESTE", "realizarLogin: TRY");
-                            JSONArray arr = response.getJSONArray("loginBean");
-                            JSONObject jo = arr.getJSONObject(0);
-                            boolean retorno = Boolean.parseBoolean(jo.getString("retorno"));
-                            String status = (jo.getString("statusRetorno"));
-                            Log.i("TESTE", "realizarLogin: " + jo);
-                            Toast.makeText(Login.this, "retorno: " + retorno+" status: " + status, Toast.LENGTH_SHORT).show();
-
+                            JSONObject jo = response.getJSONObject("loginBean");
+                            callback.onSuccess(response);
 
                         } catch (JSONException e1) {
                             Log.i("PARSE", "onResponse: " + e1);
@@ -77,13 +129,8 @@ public class Login extends AppCompatActivity {
 
     }
 
-    public void registrar(View view){
-
-    }
-
-    public void realizarLogin(String usuario, String senha){
-
-
+    public interface VolleyCallback{
+        void onSuccess(JSONObject result);
     }
 
 }

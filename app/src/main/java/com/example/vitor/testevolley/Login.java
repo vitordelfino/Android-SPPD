@@ -98,6 +98,10 @@ public class Login extends AppCompatActivity {
 
     public void registrar(View view){
 
+        Intent intent = new Intent(Login.this, CadastroPassageiro.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+
     }
 
     public void realizarLogin(String usuario, String senha, final VolleyCallback callback){

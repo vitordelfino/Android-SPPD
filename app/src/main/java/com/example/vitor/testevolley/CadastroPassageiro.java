@@ -4,14 +4,13 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.vitor.mask.Mask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,16 +40,16 @@ public class CadastroPassageiro extends AppCompatActivity {
     private ProgressDialog dialog;
 
     private Spinner txtDeficiente;
-    private TextView txtnome;
-    private TextView txtcpf;
-    private TextView txtrg;
-    private TextView txtlogradouro;
-    private TextView txtnumero;
-    private TextView txtcomplemento;
-    private TextView txtcep;
-    private TextView txtbairro;
-    private TextView txtmunicipio;
-    private TextView txtnascimento;
+    private EditText txtnome;
+    private EditText txtcpf;
+    private EditText txtrg;
+    private EditText txtlogradouro;
+    private EditText txtnumero;
+    private EditText txtcomplemento;
+    private EditText txtcep;
+    private EditText txtbairro;
+    private EditText txtmunicipio;
+    private EditText txtnascimento;
 
     private String nome;
     private String cpf;
@@ -83,16 +83,20 @@ public class CadastroPassageiro extends AppCompatActivity {
         txtDeficiente = (Spinner) findViewById(R.id.txtDeficiente);
         txtDeficiente.setAdapter(userAdapter);
 
-        txtnome = (TextView) findViewById(R.id.txtNome);
-        txtcpf = (TextView) findViewById(R.id.txtCPF);
-        txtrg = (TextView) findViewById(R.id.txtRG);
-        txtlogradouro = (TextView) findViewById(R.id.txtLogradouro);
-        txtnumero = (TextView) findViewById(R.id.txtNumero);
-        txtcomplemento = (TextView) findViewById(R.id.txtComplemento);
-        txtcep = (TextView) findViewById(R.id.txtCEP);
-        txtbairro = (TextView) findViewById(R.id.txtBairro);
-        txtmunicipio = (TextView) findViewById(R.id.txtMunicipio);
-        txtnascimento = (TextView) findViewById(R.id.txtData);
+        txtnome = (EditText) findViewById(R.id.txtNome);
+        txtcpf = (EditText) findViewById(R.id.txtCPF);
+        txtcpf.addTextChangedListener(Mask.insert(Mask.CPF_MASK, txtcpf));
+        txtrg = (EditText) findViewById(R.id.txtRG);
+        txtrg.addTextChangedListener(Mask.insert(Mask.RG_MASK, txtrg));
+        txtlogradouro = (EditText) findViewById(R.id.txtLogradouro);
+        txtnumero = (EditText) findViewById(R.id.txtNumero);
+        txtcomplemento = (EditText) findViewById(R.id.txtComplemento);
+        txtcep = (EditText) findViewById(R.id.txtCEP);
+        txtcep.addTextChangedListener(Mask.insert(Mask.CEP_MASK, txtcep));
+        txtbairro = (EditText) findViewById(R.id.txtBairro);
+        txtmunicipio = (EditText) findViewById(R.id.txtMunicipio);
+        txtnascimento = (EditText) findViewById(R.id.txtData);
+        txtnascimento.addTextChangedListener(Mask.insert(Mask.DATA_MASK, txtnascimento));
 
 
 

@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.vitor.testevolley.CadastroPassageiro"
+    tools:context="com.example.vitor.testevolley.com.example.vitor.Telas.CadastroPassageiro"
     tools:showIn="@layout/activity_cadastro_passageiro">
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -95,7 +95,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="textPersonName"
             android:text=""
             android:ems="10"
             android:id="@+id/txtBairro"
@@ -112,10 +112,11 @@
             android:hint="MUNICIPIO"
             android:textAlignment="center"/>
 
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:inputType="date"
             android:ems="10"
             android:id="@+id/txtData"
             android:hint="NASCIMENTO"

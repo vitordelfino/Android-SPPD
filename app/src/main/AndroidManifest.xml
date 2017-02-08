@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.vitor.Telas.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -24,7 +24,7 @@
             -->
         </activity>
         <activity
-            android:name=".Simulador"
+            android:name="com.example.vitor.Telas.Simulador"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -37,7 +37,7 @@
             -->
         </activity>
         <activity
-            android:name=".Login"
+            android:name="com.example.vitor.Telas.Login"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CadastroPassageiro"
+            android:name="com.example.vitor.Telas.CadastroPassageiro"
             android:label="@string/title_activity_cadastro_passageiro"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

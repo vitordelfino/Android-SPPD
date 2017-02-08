@@ -1,6 +1,5 @@
-package com.example.vitor.testevolley;
+package com.example.vitor.Telas;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.vitor.Estacao.Estacao;
+import com.example.vitor.Tools.SppdTools;
+import com.example.vitor.testevolley.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,8 +39,10 @@ public class Simulador extends AppCompatActivity {
     private int entradaSelecionada;
     private int saidaSelecionada;
 
+    //ip fatec 192.168.190.162
+    //ip casa 192.168.15.7
     List<Estacao> estacao = new ArrayList<Estacao>() ;
-    final String url = "http://192.168.15.7:8080/WebServiceSPPD/sppd/getListaEstacao";
+    final String url = SppdTools.getInstance().getEndPoint()+"/getListaEstacao";
     //192.168.0.120 wifi lab 202
     //192.168.15.7 wifi casa
 

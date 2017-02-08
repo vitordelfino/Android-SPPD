@@ -1,4 +1,4 @@
-package com.example.vitor.testevolley;
+package com.example.vitor.Telas;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,7 +21,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.vitor.Interfaces.MontarUrl;
+import com.example.vitor.Passageiro.Passageiro;
+import com.example.vitor.Tools.Retorno;
+import com.example.vitor.Tools.RealizaRequisicao;
+import com.example.vitor.Tools.SppdTools;
 import com.example.vitor.mask.Mask;
+import com.example.vitor.testevolley.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +40,7 @@ import java.util.Map;
 /**
  *
  */
-public class CadastroPassageiro extends AppCompatActivity {
+public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
 
     private ProgressDialog dialog;
 
@@ -64,8 +69,6 @@ public class CadastroPassageiro extends AppCompatActivity {
     private boolean isDeficiente = false;
 
     private Passageiro p;
-
-    private String url = "";
 
     Retorno retorno = new Retorno();
 
@@ -103,9 +106,6 @@ public class CadastroPassageiro extends AppCompatActivity {
     }
 
     public void registrar(View view){
-
-        url = "http://192.168.15.7:8080/WebServiceSPPD/sppd/cadastraPassageiro/";
-
         nome = txtnome.getText().toString();
         cpf = txtcpf.getText().toString();
         rg = txtrg.getText().toString();
@@ -120,17 +120,26 @@ public class CadastroPassageiro extends AppCompatActivity {
             isDeficiente = true;
         }
         p = new Passageiro(0,nome,cpf,rg,logradouro,numero,complemento,cep,bairro,municipio,nascimento,isDeficiente);
-
-        url += p.geraURL();
-
-
-
-
         dialog = ProgressDialog.show(CadastroPassageiro.this,"Processando","Realizando Cadastro....", false, true);
         dialog.setCancelable(false);
         new Thread() {
             public void run() {
                 try {
+
+                    RealizaRequisicao.getInstance().post(CadastroPassageiro.this, url(), new Login.VolleyCallback() {
+                        @Override
+                        public void onSuccess(JSONObject result) {
+                            try {
+                                result = result.getJSONObject("retorno");
+                                retorno.setStatusRetorno(result.getString("status"));
+                                retorno.setRetorno(Boolean.parseBoolean(result.getString("retorno")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                    /*
                     realizaCadastro(url,
                             new Login.VolleyCallback() {
                                 @Override
@@ -143,7 +152,7 @@ public class CadastroPassageiro extends AppCompatActivity {
                                     }
                                 }
                             });
-
+                    */
                     Thread.sleep(1500);
 
                 }catch (Exception e) {
@@ -200,14 +209,7 @@ public class CadastroPassageiro extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject jo = response.getJSONObject("retorno");
-                            callback.onSuccess(jo);
-
-                        } catch (JSONException e1) {
-                            Log.i("PARSE", "onResponse: " + e1);
-                            e1.printStackTrace();
-                        }
+                        callback.onSuccess(response);
                     }
                 }, new Response.ErrorListener(){
 
@@ -226,6 +228,11 @@ public class CadastroPassageiro extends AppCompatActivity {
         };
         request.add(requisicao);
 
+    }
+
+    @Override
+    public String url() {
+        return SppdTools.getInstance().getEndPoint()+"/cadastraPassageiro/"+p.geraParametros();
     }
 
     public interface VolleyCallback{

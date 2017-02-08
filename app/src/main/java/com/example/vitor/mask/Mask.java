@@ -14,7 +14,7 @@ public abstract class Mask {
     public static String CELULAR_MASK   = "(##) #### #####";
     public static String CEP_MASK       = "#####-###";
     public static String RG_MASK        ="##.###.###-#";
-    public static String DATA_MASK      ="####-##-##";
+    public static String DATA_MASK      ="##-##-####";
     public static String unmask(String s) {
         return s.replaceAll("[.]", "").replaceAll("[-]", "")
                 .replaceAll("[/]", "").replaceAll("[(]", "")

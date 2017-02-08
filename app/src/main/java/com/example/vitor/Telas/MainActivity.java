@@ -1,4 +1,4 @@
-package com.example.vitor.testevolley;
+package com.example.vitor.Telas;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,17 +14,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.vitor.Estacao.Estacao;
+import com.example.vitor.testevolley.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView t;
     private EditText e;
     private Map<String, String> params;
-    final String url = "http://192.168.15.7:8080/TesteJson/estacao/getEstacoes";
+    final String url = "http://192.168.190.162:8080/TesteJson/estacao/getEstacoes";
+    //"http://192.168.15.7:8080/TesteJson/estacao/getEstacoes"
+    //http://192.168.190.162:8080/TesteJson/estacao/getEstacoes
     List<Estacao> estacao = new ArrayList<Estacao>() ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

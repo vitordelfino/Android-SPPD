@@ -1,4 +1,4 @@
-package com.example.vitor.testevolley;
+package com.example.vitor.Passageiro;
 
 /**
  * Created by vitor on 15/12/16.
@@ -117,11 +117,11 @@ public class Passageiro {
     }
 
 
-    public String geraURL(){
+    public String geraParametros(){
         String url = "";
 
         url += this.getNome()+"/"+this.getCpf()+"/"+this.getRg()+"/"+this.getLogradouro()+"/"+
-                this.getNumero()+"/"+this.getNumero()+"/"+this.getComplemento()+"/"+this.getBairro()+"/"+
+                this.getNumero()+"/"+this.getComplemento()+"/"+this.getCep()+"/"+this.getBairro()+"/"+
                 this.getMunicipio()+"/"+this.getNascimento()+"/";
 
         if(this.isDeficiente()){
@@ -131,7 +131,7 @@ public class Passageiro {
         }
 
         url = url.replaceAll(" ", "%20");
-
+        url = url.replaceAll("//","/VAZIO/");
         return url;
 
     }

@@ -9,7 +9,7 @@ package com.example.vitor.Tools;
 
 public class SppdTools {
     private static SppdTools sppdTools = null;
-    private String dominio = "http://192.168.15.8:8080";
+    private String dominio = "http://192.168.15.6:8080";
 
     private SppdTools(){
 

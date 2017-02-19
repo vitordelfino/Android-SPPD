@@ -1,10 +1,12 @@
 package com.example.vitor.Passageiro;
 
+import java.io.Serializable;
+
 /**
  * Created by vitor on 15/12/16.
  */
 
-public class Passageiro {
+public class Passageiro implements Serializable {
 
 
     private int codPassageiro;

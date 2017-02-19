@@ -1,15 +1,21 @@
 package com.example.vitor.Telas;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.vitor.Estacao.Estacao;
+import com.example.vitor.Passageiro.Passageiro;
 import com.example.vitor.Tools.SppdTools;
 import com.example.vitor.testevolley.R;
 
@@ -29,7 +36,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Simulador extends AppCompatActivity {
+public class Simulador extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
     boolean  responseOk;
     private ProgressDialog dialog;
     private List<Estacao> estacoesObj; //-- lista para validar a estacao selecionada
@@ -39,12 +47,10 @@ public class Simulador extends AppCompatActivity {
     private int entradaSelecionada;
     private int saidaSelecionada;
 
-    //ip fatec 192.168.190.162
-    //ip casa 192.168.15.7
     List<Estacao> estacao = new ArrayList<Estacao>() ;
     final String url = SppdTools.getInstance().getEndPoint()+"/getListaEstacao";
-    //192.168.0.120 wifi lab 202
-    //192.168.15.7 wifi casa
+
+    TextView nomePassageiro;
 
     //Tive que montar 2 lista pois não da pra mandar um objeto pro spinner
     //Então um mostra as estacoes e com base no retorno do spinner eu valido qual o id da mesma
@@ -55,7 +61,17 @@ public class Simulador extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_simulador);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        Intent intent = getIntent();
+        Passageiro p = (Passageiro) intent.getSerializableExtra("passageiro");
         carregaEstacoes();
 
     }
@@ -100,9 +116,19 @@ public class Simulador extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_simulador);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_simulador, menu);
+        getMenuInflater().inflate(R.menu.menu_lateral, menu);
         return true;
     }
 
@@ -121,6 +147,36 @@ public class Simulador extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_recarregar) {
+            Toast.makeText(this, "Clicou em nav_carregar", Toast.LENGTH_SHORT).show();
+            /*
+            Intent intent = new Intent(this, Simulador.class);
+            startActivity(intent);
+            */
+
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_simulador);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
     public void carregaEstacoes(){
 
         final RequestQueue request = Volley.newRequestQueue(this);
@@ -131,7 +187,6 @@ public class Simulador extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.i("TESTE", "onResponse: " + response);
                             JSONArray arr = response.getJSONArray("estacao");
                             for(int i = 0; i < arr.length(); i++){
                                 JSONObject jo = arr.getJSONObject(i);

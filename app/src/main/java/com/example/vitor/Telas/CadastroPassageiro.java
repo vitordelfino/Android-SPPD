@@ -138,21 +138,6 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
                             }
                         }
                     });
-
-                    /*
-                    realizaCadastro(url,
-                            new Login.VolleyCallback() {
-                                @Override
-                                public void onSuccess(JSONObject result) {
-                                    try {
-                                        retorno.setStatusRetorno(result.getString("status"));
-                                        retorno.setRetorno(Boolean.parseBoolean(result.getString("retorno")));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                    */
                     Thread.sleep(1500);
 
                 }catch (Exception e) {

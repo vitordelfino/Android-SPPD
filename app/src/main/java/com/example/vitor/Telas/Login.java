@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.example.vitor.Interfaces.MontarUrl;
 import com.example.vitor.Passageiro.Passageiro;
-import com.example.vitor.Tools.Retorno;
 import com.example.vitor.Tools.RealizaRequisicao;
+import com.example.vitor.Tools.Retorno;
 import com.example.vitor.Tools.SppdTools;
 import com.example.vitor.testevolley.R;
 
@@ -23,7 +23,6 @@ public class Login extends AppCompatActivity implements MontarUrl {
     private ProgressDialog dialog;
     EditText usuario;
     EditText senha;
-
     Retorno retorno = new Retorno();
     Passageiro passageiro = new Passageiro();
     @Override
@@ -72,8 +71,10 @@ public class Login extends AppCompatActivity implements MontarUrl {
                             Toast.makeText(Login.this, retorno.getStatusRetorno() + "\n" + passageiro.getNome(), Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(Login.this, Simulador.class);
+                            intent.putExtra("passageiro", passageiro);
                             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                             startActivity(intent);
+
                             finish();
 
                         } else {

@@ -154,12 +154,10 @@ public class Simulador extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_recarregar) {
-            Toast.makeText(this, "Clicou em nav_carregar", Toast.LENGTH_SHORT).show();
-            /*
-            Intent intent = new Intent(this, Simulador.class);
+            Intent intent = new Intent(this, RecargaCartao.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
-            */
-
+            finish();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

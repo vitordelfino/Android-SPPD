@@ -3,14 +3,18 @@ package com.example.vitor.Telas;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,9 +27,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.vitor.Interfaces.MontarUrl;
 import com.example.vitor.Passageiro.Passageiro;
-import com.example.vitor.Tools.Retorno;
 import com.example.vitor.Tools.RealizaRequisicao;
+import com.example.vitor.Tools.Retorno;
 import com.example.vitor.Tools.SppdTools;
+import com.example.vitor.Tools.StatusRetorno;
 import com.example.vitor.mask.Mask;
 import com.example.vitor.testevolley.R;
 
@@ -40,6 +45,7 @@ import java.util.Map;
 /**
  *
  */
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
 
     private ProgressDialog dialog;
@@ -101,11 +107,11 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
         txtnascimento = (EditText) findViewById(R.id.txtData);
         txtnascimento.addTextChangedListener(Mask.insert(Mask.DATA_MASK, txtnascimento));
 
-
+        alertAlterarSenha(new Passageiro());
 
     }
 
-    public void registrar(View view){
+    public synchronized void registrar(View view){
         nome = txtnome.getText().toString();
         cpf = txtcpf.getText().toString();
         rg = txtrg.getText().toString();
@@ -126,26 +132,38 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
             public void run() {
                 try {
 
-                    RealizaRequisicao.getInstance().post(CadastroPassageiro.this, url(), new Login.VolleyCallback() {
+                    RealizaRequisicao.getInstance().postJson(CadastroPassageiro.this, url(),p.montarJson(), new Login.VolleyCallback() {
                         @Override
                         public void onSuccess(JSONObject result) {
                             try {
                                 result = result.getJSONObject("retorno");
-                                retorno.setStatusRetorno(result.getString("status"));
-                                retorno.setRetorno(Boolean.parseBoolean(result.getString("retorno")));
+
+                                /**
+                                 * atualizar passageiro com codRetornado
+                                 */
+
+
+                                retorno.setstatusMessage(result.getString("status"));
+                                if (result.getString("retorno").equalsIgnoreCase("true")){
+                                    retorno.setRetorno(StatusRetorno.YES);
+                                }else{
+                                    retorno.setRetorno(StatusRetorno.NO);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
                     });
                     Thread.sleep(1500);
-
+                    /**
+                     * aprender a sincronizar as threads com wait e notify
+                     */
                 }catch (Exception e) {
                 }
                 dialog.dismiss();
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        if (retorno.isRetorno()) {
+                        if (retorno.isSucess()) {
                             AlertDialog.Builder configAlerta = new AlertDialog.Builder(CadastroPassageiro.this);
 
                                 configAlerta.setTitle("ALERTA");
@@ -164,7 +182,8 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
                                 configAlerta.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        Toast.makeText(CadastroPassageiro.this, "Vamos implementar esta funcao", Toast.LENGTH_LONG).show();
+                                        alertAlterarSenha(p);
+
                                     }
                                 });
                                 AlertDialog alerta = configAlerta.create();
@@ -172,7 +191,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
 
 
                         } else {
-                            Toast.makeText(CadastroPassageiro.this, retorno.getStatusRetorno(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CadastroPassageiro.this, retorno.getstatusMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -217,11 +236,91 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
 
     @Override
     public String url() {
-        return SppdTools.getInstance().getEndPoint()+"/cadastraPassageiro/"+p.geraParametros();
+        return SppdTools.getInstance().getEndPoint()+"/passageiro/cadastraPassageiro/"/*+p.geraParametros()*/;
     }
 
     public interface VolleyCallback{
         void onSuccess(JSONObject result);
     }
+
+    private void alertAlterarSenha(final Passageiro p){
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(CadastroPassageiro.this);
+        alertDialog.setTitle("ALTERAÇÃO DE SENHA");
+        alertDialog.setMessage("Entre com sua Senha");
+
+        final EditText senha = new EditText(CadastroPassageiro.this);
+        senha.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        senha.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        senha.setHint("senha");
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        senha.setLayoutParams(lp);
+
+        alertDialog.setView(senha);
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertConfirmaSenha(p, senha.getText().toString());
+                    }
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialog.show();
+
+
+    }
+
+
+    private void alertConfirmaSenha(final Passageiro p, final String senha){
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(CadastroPassageiro.this);
+        alertDialog.setTitle("ALTERACAO DE SENHA");
+        alertDialog.setMessage("Confirme sua Senha");
+
+        final EditText confirmaSenha = new EditText(CadastroPassageiro.this);
+        confirmaSenha.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        confirmaSenha.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        confirmaSenha.setHint("confirmação de senha");
+
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        confirmaSenha.setLayoutParams(lp);
+        alertDialog.setView(confirmaSenha);
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if(!confirmaSenha.getText().toString().equals(senha)){
+                            Toast.makeText(CadastroPassageiro.this, "Senhas digitadas se diferem, tente novamente", Toast.LENGTH_SHORT).show();
+                            alertAlterarSenha(p);
+                        }else {
+                            Toast.makeText(CadastroPassageiro.this, "Sucess", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+
+                    }
+                });
+
+        alertDialog.show();
+    }
+
 
 }

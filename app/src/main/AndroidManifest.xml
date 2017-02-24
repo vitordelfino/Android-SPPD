@@ -15,13 +15,11 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
-            <!--
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
+            </intent-filter>-->
         </activity>
         <activity
             android:name="com.example.vitor.Telas.Login"
@@ -40,6 +38,10 @@
         <activity
             android:name="com.example.vitor.Telas.MenuLateral"
             android:label="@string/title_activity_menu_lateral"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.vitor.Telas.RecargaCartao"
+            android:label="@string/title_activity_recarga_cartao"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

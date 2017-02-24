@@ -1,5 +1,10 @@
 package com.example.vitor.Passageiro;
 
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 /**
@@ -136,6 +141,28 @@ public class Passageiro implements Serializable {
         url = url.replaceAll("//","/VAZIO/");
         return url;
 
+    }
+
+    public JSONObject montarJson(){
+        JSONObject retorno = new JSONObject();
+        try {
+            retorno.put("codPassageiro", this.getCodPassageiro());
+            retorno.put("nome", this.getNome());
+            retorno.put("cpf", this.getCpf());
+            retorno.put("rg", this.getRg());
+            retorno.put("logradouro", this.getLogradouro());
+            retorno.put("numero", this.getNumero());
+            retorno.put("complemento", this.getComplemento());
+            retorno.put("cep", this.getCep());
+            retorno.put("bairro", this.getBairro());
+            retorno.put("municipio", this.getMunicipio());
+            retorno.put("nascimento", this.getNascimento());
+            retorno.put("deficiente",this.isDeficiente());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d(null, "montarJson: " + retorno);
+        return retorno;
     }
 
 

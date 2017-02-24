@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.example.vitor.Passageiro.Passageiro;
 import com.example.vitor.Tools.RealizaRequisicao;
 import com.example.vitor.Tools.Retorno;
 import com.example.vitor.Tools.SppdTools;
+import com.example.vitor.Tools.StatusRetorno;
 import com.example.vitor.testevolley.R;
 
 import org.json.JSONException;
@@ -36,7 +38,7 @@ public class Login extends AppCompatActivity implements MontarUrl {
         senha = (EditText) findViewById(R.id.txtSenha);
     }
 
-    public void logar(View view){
+    public synchronized void logar(View view){
         dialog = ProgressDialog.show(Login.this,"Processando","Confirmando dados....", false, true);
         dialog.setCancelable(false);
         new Thread() {
@@ -49,11 +51,17 @@ public class Login extends AppCompatActivity implements MontarUrl {
                         public void onSuccess(JSONObject result) {
                             try {
                                 result = result.getJSONObject("loginBean");
-                                retorno.setRetorno(Boolean.parseBoolean(result.getString("retorno")));
-                                retorno.setStatusRetorno(result.getString("statusRetorno"));
+                                if(result.getString("retorno").equalsIgnoreCase("true")){
+                                    retorno.setRetorno(StatusRetorno.YES);
+                                }else{
+                                    retorno.setRetorno(StatusRetorno.NO);
+                                }
+
+                                retorno.setstatusMessage(result.getString("statusRetorno"));
 
                                 result = result.getJSONObject("passageiro");
                                 passageiro.setNome(result.getString("nome"));
+                                    Log.d("RetornoLogin", "onSuccess: " + retorno.getstatusMessage());
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -62,13 +70,14 @@ public class Login extends AppCompatActivity implements MontarUrl {
                     });
                     Thread.sleep(1500);
 
-                }catch (Exception e) {
-                }
+                }catch (Exception e) { }
                 dialog.dismiss();
+
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        if (retorno.isRetorno()) {
-                            Toast.makeText(Login.this, retorno.getStatusRetorno() + "\n" + passageiro.getNome(), Toast.LENGTH_SHORT).show();
+
+                        if (retorno.isSucess()) {
+                            Toast.makeText(Login.this, retorno.getstatusMessage() + "\n" + passageiro.getNome(), Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(Login.this, Simulador.class);
                             intent.putExtra("passageiro", passageiro);
@@ -78,11 +87,9 @@ public class Login extends AppCompatActivity implements MontarUrl {
                             finish();
 
                         } else {
-                            Toast.makeText(Login.this, retorno.getStatusRetorno(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, retorno.getstatusMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
-
-
                 });
             }
         }.start();
@@ -99,7 +106,7 @@ public class Login extends AppCompatActivity implements MontarUrl {
 
     @Override
     public String url() {
-        return SppdTools.getInstance().getEndPoint()+"/logar/"+usuario.getText()+"/"+senha.getText();
+        return SppdTools.getInstance().getEndPoint()+"/login/logar/"+usuario.getText()+"/"+senha.getText();
     }
 
     public interface VolleyCallback{

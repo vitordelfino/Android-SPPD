@@ -6,26 +6,26 @@ package com.example.vitor.Tools;
 
 public class Retorno {
 
-    private boolean retorno;
-    private String statusRetorno;
+    private boolean status;
+    private String statusMessage;
 
-    public synchronized String getStatusRetorno() {
-        return statusRetorno;
-
-    }
-
-    public synchronized void setStatusRetorno(String statusRetorno) {
-         this.statusRetorno = statusRetorno;
+    public synchronized String getstatusMessage() {
+        return statusMessage;
 
     }
 
-    public synchronized boolean isRetorno() {
-        return retorno;
+    public synchronized void setstatusMessage(String statusRetorno) {
+         this.statusMessage = statusRetorno;
 
     }
 
-    public synchronized void setRetorno(boolean retorno) {
-        this.retorno = retorno;
+    public synchronized boolean isSucess() {
+        return status;
+
+    }
+
+    public synchronized void setRetorno(StatusRetorno s) {
+        this.status = s.getStatus();
 
     }
 

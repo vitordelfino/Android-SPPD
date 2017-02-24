@@ -84,4 +84,32 @@ public class RealizaRequisicao {
         };
         request.add(requisicao);
     }
+
+    public synchronized void postJson(Context contexto, String url,final JSONObject jsonBody, final Login.VolleyCallback callback){
+        final RequestQueue request = Volley.newRequestQueue(contexto);
+
+        final JsonObjectRequest requisicao = new JsonObjectRequest(Request.Method.POST, url,jsonBody,
+                new Response.Listener<JSONObject>(){
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onSuccess(response);
+                        //this.notifyAll();
+                    }
+                }, new Response.ErrorListener(){
+
+            @Override
+            public void onErrorResponse(VolleyError error ) {
+                Log.i("ERROR", "onErrorResponse: " + error );
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/json");
+                return params;
+            }
+        };
+        request.add(requisicao);
+    }
 }

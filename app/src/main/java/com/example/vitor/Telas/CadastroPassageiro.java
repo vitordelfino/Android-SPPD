@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.vitor.Interfaces.MontarUrl;
+import com.example.vitor.Interfaces.VolleyCallbackObject;
 import com.example.vitor.Passageiro.Passageiro;
 import com.example.vitor.Tools.RealizaRequisicao;
 import com.example.vitor.Tools.Retorno;
@@ -132,7 +133,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
             public void run() {
                 try {
 
-                    RealizaRequisicao.getInstance().postJson(CadastroPassageiro.this, url(),p.montarJson(), new Login.VolleyCallback() {
+                    RealizaRequisicao.getInstance().postJson(CadastroPassageiro.this, url(),p.montarJson(), new VolleyCallbackObject() {
                         @Override
                         public void onSuccess(JSONObject result) {
                             try {

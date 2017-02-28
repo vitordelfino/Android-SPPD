@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_recarga_cartao"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,31 +14,12 @@
     tools:context="com.example.vitor.Telas.RecargaCartao"
     tools:showIn="@layout/app_bar_recarga_cartao">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/valor"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="104dp"
-        android:hint="0,00"
-        android:textAlignment="center"
-        android:textSize="16dp"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="417dp"
+        android:id="@+id/lstCartoes" />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView3" />
 
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:onClick="efetuarRecarga"/>
+
+
 </RelativeLayout>

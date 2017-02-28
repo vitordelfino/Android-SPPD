@@ -1,0 +1,152 @@
+package com.example.vitor.Cartao;
+
+/**
+ * Created by vitor on 28/02/17.
+ */
+
+public class Cartao {
+
+    private String codCartao;
+    private int categoria;
+    private int codPassageiro;
+    private int ativo;
+    private double saldo;
+    private double ultimoMovimento;
+
+    public Cartao(){
+
+    }
+
+    public Cartao(String numCartao, CategoriaCartao categoria, double saldo){
+        this.codCartao = numCartao;
+        this.categoria = categoria.getCategoria();
+        this.saldo = saldo;
+    }
+
+    public Cartao(String codCartao, CategoriaCartao categoria, int codPassageiro, int ativo, double saldo,
+                  double ultimoMovimento) {
+        super();
+        this.codCartao = codCartao;
+        this.categoria = categoria.getCategoria();
+        this.codPassageiro = codPassageiro;
+        this.ativo = ativo;
+        this.saldo = saldo;
+        this.ultimoMovimento = ultimoMovimento;
+    }
+
+    public Cartao(String codCartao, int categoria, int codPassageiro, int ativo, double saldo,
+                  double ultimoMovimento) {
+        super();
+        this.codCartao = codCartao;
+        this.setCategoria(categoria);
+        this.codPassageiro = codPassageiro;
+        this.ativo = ativo;
+        this.saldo = saldo;
+        this.ultimoMovimento = ultimoMovimento;
+    }
+
+    public Cartao(String codCartao, int codPassageiro){
+        this.codCartao = codCartao;
+        this.codPassageiro = codPassageiro;
+    }
+
+    public Cartao(String codCartao, int codPassageiro, CategoriaCartao categoria){
+        this.codCartao = codCartao;
+        this.codPassageiro = codPassageiro;
+        this.categoria = categoria.getCategoria();
+    }
+
+    public String getCodCartao() {
+        return codCartao;
+    }
+
+    public void setCodCartao(String codCartao) {
+        this.codCartao = codCartao;
+    }
+
+    public int getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaCartao categoria) {
+        this.categoria = categoria.getCategoria();
+    }
+
+    public int getCodPassageiro() {
+        return codPassageiro;
+    }
+
+    public void setCodPassageiro(int codPassageiro) {
+        this.codPassageiro = codPassageiro;
+    }
+
+    public int getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(int ativo) {
+        this.ativo = ativo;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
+    public double getUltimoMovimento() {
+        return ultimoMovimento;
+    }
+
+    public void setUltimoMovimento(double ultimoMovimento) {
+        this.ultimoMovimento = ultimoMovimento;
+    }
+    public String getDescrCategoria(){
+
+        String retorno = "";
+        switch (this.getCategoria()){
+            case 1 :
+                retorno = "Normal";
+                break;
+            case 2 :
+                retorno = "Estudante";
+                break;
+            case 3 :
+                retorno = "Idoso";
+                break;
+            case 4 :
+                retorno = "Passe-Livre";
+                break;
+        }
+
+        return retorno;
+    }
+
+    public void setCategoria(int i){
+        CategoriaCartao categoria = null;
+        switch (i){
+            case 1:
+                categoria = CategoriaCartao.NORMAL;
+                break;
+            case 2:
+                categoria = CategoriaCartao.ESTUDANTE;
+                break;
+            case 3:
+                categoria = CategoriaCartao.IDOSO;
+                break;
+            case 4:
+                categoria = CategoriaCartao.PASSE_LIVRE;
+                break;
+        }
+        this.setCategoria(categoria);
+    }
+
+    @Override
+    public String toString() {
+        return "Cartao [codCartao=" + codCartao + ", categoria=" + categoria + ", codPassageiro=" + codPassageiro
+                + ", ativo=" + ativo + ", saldo=" + saldo + ", ultimoMovimento=" + ultimoMovimento + "]";
+    }
+
+}

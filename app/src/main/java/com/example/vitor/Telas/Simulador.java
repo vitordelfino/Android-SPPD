@@ -51,7 +51,7 @@ public class Simulador extends AppCompatActivity
     final String url = SppdTools.getInstance().getEndPoint()+"/getListaEstacao";
 
     TextView nomePassageiro;
-
+    Passageiro p;
     //Tive que montar 2 lista pois não da pra mandar um objeto pro spinner
     //Então um mostra as estacoes e com base no retorno do spinner eu valido qual o id da mesma
     @Override
@@ -71,7 +71,7 @@ public class Simulador extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = getIntent();
-        Passageiro p = (Passageiro) intent.getSerializableExtra("passageiro");
+        p = (Passageiro) intent.getSerializableExtra("passageiro");
         carregaEstacoes();
 
     }
@@ -155,6 +155,7 @@ public class Simulador extends AppCompatActivity
 
         if (id == R.id.nav_recarregar) {
             Intent intent = new Intent(this, RecargaCartao.class);
+            intent.putExtra("passageiro", p);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             finish();

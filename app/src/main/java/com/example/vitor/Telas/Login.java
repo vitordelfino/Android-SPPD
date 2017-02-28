@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.vitor.Interfaces.MontarUrl;
+import com.example.vitor.Interfaces.VolleyCallbackObject;
 import com.example.vitor.Passageiro.Passageiro;
 import com.example.vitor.Tools.RealizaRequisicao;
 import com.example.vitor.Tools.Retorno;
@@ -46,7 +47,7 @@ public class Login extends AppCompatActivity implements MontarUrl {
                 try {
 
 
-                    RealizaRequisicao.getInstance().get(Login.this, url(), new VolleyCallback() {
+                    RealizaRequisicao.getInstance().get(Login.this, url(), new VolleyCallbackObject() {
                         @Override
                         public void onSuccess(JSONObject result) {
                             try {
@@ -60,6 +61,17 @@ public class Login extends AppCompatActivity implements MontarUrl {
                                 retorno.setstatusMessage(result.getString("statusRetorno"));
 
                                 result = result.getJSONObject("passageiro");
+                                passageiro.setBairro(result.getString("bairro"));
+                                passageiro.setCep(result.getString("cep"));
+                                passageiro.setCodPassageiro(Integer.parseInt(result.getString("codPassageiro")));
+                                passageiro.setComplemento(result.getString("complemento"));
+                                passageiro.setCpf(result.getString("cpf"));
+                                passageiro.setDeficiente(Boolean.parseBoolean(result.getString("deficiente")));
+                                passageiro.setLogradouro(result.getString("logradouro"));
+                                passageiro.setMunicipio(result.getString("cpf"));
+                                passageiro.setNascimento(result.getString("nascimento"));
+                                passageiro.setNumero(result.getString("numero"));
+                                passageiro.setRg(result.getString("rg"));
                                 passageiro.setNome(result.getString("nome"));
                                     Log.d("RetornoLogin", "onSuccess: " + retorno.getstatusMessage());
 

@@ -1,26 +1,58 @@
 package com.example.vitor.Telas;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vitor.Adapters.CartaoAdapter;
+import com.example.vitor.Cartao.Cartao;
+import com.example.vitor.Interfaces.MontarUrl;
+import com.example.vitor.Interfaces.VolleyCallbackObject;
+import com.example.vitor.Passageiro.Passageiro;
+import com.example.vitor.Tools.RealizaRequisicao;
+import com.example.vitor.Tools.Retorno;
+import com.example.vitor.Tools.SppdTools;
 import com.example.vitor.mask.MascaraMonetaria;
 import com.example.vitor.testevolley.R;
 
-public class RecargaCartao extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.ArrayList;
+
+import static android.view.View.TEXT_ALIGNMENT_CENTER;
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+public class RecargaCartao extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MontarUrl{
 
     EditText txtValor;
     TextView aux;
+    Passageiro passageiro;
+
+
+    private ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +69,81 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        aux = (TextView) findViewById(R.id.textView3);
+        //aux = (TextView) findViewById(R.id.textView3);
 
-        txtValor = (EditText) findViewById(R.id.valor);
-        txtValor.addTextChangedListener(new MascaraMonetaria(txtValor));
+        Intent intent = getIntent();
+        passageiro = (Passageiro) intent.getSerializableExtra("passageiro");
+        listaCartoes(passageiro);
+
     }
+
+
+
+    public void listaCartoes(Passageiro passageiro){
+        dialog = ProgressDialog.show(RecargaCartao.this,"Processando","Carregando Cartões", false, true);
+        dialog.setCancelable(false);
+        final ArrayList<Cartao> cartao = new ArrayList<Cartao>();
+        new Thread(){
+            public void run(){
+
+                try{
+                    RealizaRequisicao.getInstance().get(RecargaCartao.this, url(), new VolleyCallbackObject() {
+                        @Override
+                        public void onSuccess(JSONObject result) {
+                            try {
+                                JSONArray jo = result.getJSONArray("cartao");
+                                for(int i = 0; i < jo.length(); i++){
+                                    JSONObject cartaoJson = jo.getJSONObject(i);
+                                    cartao.add(new Cartao(cartaoJson.getString("codCartao"),
+                                            Integer.parseInt(cartaoJson.getString("categoria")),
+                                            Integer.parseInt(cartaoJson.getString("codPassageiro")),
+                                            Integer.parseInt(cartaoJson.getString("ativo")),
+                                            Double.parseDouble(cartaoJson.getString("saldo")),
+                                            Double.parseDouble(cartaoJson.getString("ultimoMovimento"))
+                                    ));
+
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }});
+
+                    Thread.sleep(3000);
+                }catch(Exception e ){
+                }
+                dialog.dismiss();
+
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        montaLayout(cartao);
+                    }
+                });
+
+            }
+        }.start();
+
+    }
+
+    public void montaLayout(final ArrayList<Cartao> cartao){
+        CartaoAdapter cartaoAdapter = new CartaoAdapter(this, cartao);
+
+        final ListView listView = (ListView) super.findViewById(R.id.lstCartoes);
+        listView.setAdapter(cartaoAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Cartao c = (Cartao) listView.getAdapter().getItem(i);
+                alertCarregaCartao(c);
+            }
+        });
+    }
+
+    @Override
+    public String url() {
+        return SppdTools.getInstance().getEndPoint()+"/cartao/getCartoes/"+passageiro.getCodPassageiro();
+    }
+
 
     public void efetuarRecarga(View view){
         aux.setText(txtValor.getText().toString().substring(1,txtValor.getText().toString().length()));
@@ -109,4 +211,89 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
+    private void alertCarregaCartao(final Cartao c){
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(RecargaCartao.this);
+        alertDialog.setTitle("RECARGA");
+        alertDialog.setMessage("Entre com valor de recarga");
+
+        final EditText valor = new EditText(RecargaCartao.this);
+        valor.setInputType(InputType.TYPE_CLASS_NUMBER);
+        valor.addTextChangedListener(new MascaraMonetaria(valor));
+        valor.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+        valor.setHint("0,00");
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        valor.setLayoutParams(lp);
+
+        alertDialog.setView(valor);
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        NumberFormat baseFormart = NumberFormat.getCurrencyInstance();
+                        try {
+                            Double valorRecarga = baseFormart.parse(valor.getText().toString()).doubleValue();
+
+                            alertConfirmaRecarga(c, valorRecarga);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
+    }
+    private void alertConfirmaRecarga(final Cartao c, final double valorRecarga){
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(RecargaCartao.this);
+        alertDialog.setTitle("CONFIRMAÇÃO DE RECARGA");
+        alertDialog.setMessage("Deseja realizar a recarga de R$ " + valorRecarga + " ");
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        JSONObject jo = new JSONObject();
+                        try {
+                            jo.put("valor",valorRecarga);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        RealizaRequisicao.getInstance().postJson(RecargaCartao.this, urlRecargaCartao(c), jo, new VolleyCallbackObject() {
+                            @Override
+                            public void onSuccess(JSONObject result) {
+                                try{
+                                    Retorno retorno = new Retorno();
+                                    retorno.setstatusMessage(result.getString("status"));
+                                    Toast.makeText(RecargaCartao.this, retorno.getstatusMessage(), Toast.LENGTH_SHORT).show();
+                                    listaCartoes(passageiro);
+                                }catch(Exception e){
+
+                                }
+
+                            }
+                        });
+                    }
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
+    }
+    private String urlRecargaCartao(Cartao c){
+        return SppdTools.getInstance().getEndPoint() + "/cartao/efetuarRecarga/"+c.getCodCartao()+"/"+c.getCodPassageiro();
+    }
 }

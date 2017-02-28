@@ -8,10 +8,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.vitor.Telas.Login;
+import com.example.vitor.Interfaces.VolleyCallbackArray;
+import com.example.vitor.Interfaces.VolleyCallbackObject;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -38,7 +41,7 @@ public class RealizaRequisicao {
         return realizaRequisicao;
     }
 
-    public void get(Context contexto, String url, final Login.VolleyCallback callback){
+    public void get(Context contexto, String url, final VolleyCallbackObject callback){
         final RequestQueue request = Volley.newRequestQueue(contexto);
 
         final JsonObjectRequest requisicao = new JsonObjectRequest(Request.Method.GET, url,
@@ -58,7 +61,27 @@ public class RealizaRequisicao {
         request.add(requisicao);
     }
 
-    public void post(Context contexto, String url, final Login.VolleyCallback callback){
+    public void getArray(Context contexto, String url, final VolleyCallbackArray callback){
+        final RequestQueue request = Volley.newRequestQueue(contexto);
+
+        final JsonArrayRequest requisicao = new JsonArrayRequest(Request.Method.GET, url,
+                new Response.Listener<JSONArray>(){
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        callback.onSucess(response);
+                    }
+                }, new Response.ErrorListener(){
+
+            @Override
+            public void onErrorResponse(VolleyError error ) {
+                Log.i("ERROR", "onErrorResponse: " + error );
+            }
+        });
+        request.add(requisicao);
+    }
+
+    public void post(Context contexto, String url, final VolleyCallbackObject callback){
         final RequestQueue request = Volley.newRequestQueue(contexto);
 
         final JsonObjectRequest requisicao = new JsonObjectRequest(Request.Method.POST, url,
@@ -85,7 +108,7 @@ public class RealizaRequisicao {
         request.add(requisicao);
     }
 
-    public synchronized void postJson(Context contexto, String url,final JSONObject jsonBody, final Login.VolleyCallback callback){
+    public synchronized void postJson(Context contexto, String url,final JSONObject jsonBody, final VolleyCallbackObject callback){
         final RequestQueue request = Volley.newRequestQueue(contexto);
 
         final JsonObjectRequest requisicao = new JsonObjectRequest(Request.Method.POST, url,jsonBody,

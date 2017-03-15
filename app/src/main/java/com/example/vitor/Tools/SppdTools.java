@@ -5,11 +5,11 @@ package com.example.vitor.Tools;
  */
 
 //ip fatec 192.168.190.162
-//ip casa 192.168.15.7 ou 192.168.15.8 ou 192.168.15.5
+//ip casa http://192.168.15.3
 //ip hotspot celular 192.168.43.72
 public class SppdTools {
     private static SppdTools sppdTools = null;
-    private String dominio = "http://192.168.15.5:8080";
+    private String dominio = "http://192.168.183.205:8080";
 
     private SppdTools(){
 

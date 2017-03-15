@@ -75,7 +75,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
     private String nascimento;
     private boolean isDeficiente = false;
 
-    private Passageiro p;
+    private static Passageiro p;
 
     Retorno retorno = new Retorno();
 
@@ -108,7 +108,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
         txtnascimento = (EditText) findViewById(R.id.txtData);
         txtnascimento.addTextChangedListener(Mask.insert(Mask.DATA_MASK, txtnascimento));
 
-        alertAlterarSenha(new Passageiro());
+
 
     }
 
@@ -168,12 +168,12 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
                             AlertDialog.Builder configAlerta = new AlertDialog.Builder(CadastroPassageiro.this);
 
                                 configAlerta.setTitle("ALERTA");
-                                configAlerta.setMessage("Sua senha é o seu CPF, deseja altera-la agora?");
+                                configAlerta.setMessage("Sua senha é o seu CPF, deseja alterar agora?");
                                 configAlerta.setNegativeButton("Não", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-
                                         Intent intent = new Intent(CadastroPassageiro.this, Simulador.class);
+                                        intent.putExtra("passageiro", p);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                         startActivity(intent);
                                         finish();
@@ -272,6 +272,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        avancarTela();
                     }
                 });
 
@@ -302,13 +303,34 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
         alertDialog.setPositiveButton("YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
+                        ProgressDialog dialogSenha = ProgressDialog.show(CadastroPassageiro.this,"Processando","Realizando Cadastro....", false, true);
+                        dialogSenha.setCancelable(false);
                         if(!confirmaSenha.getText().toString().equals(senha)){
                             Toast.makeText(CadastroPassageiro.this, "Senhas digitadas se diferem, tente novamente", Toast.LENGTH_SHORT).show();
                             alertAlterarSenha(p);
                         }else {
-                            Toast.makeText(CadastroPassageiro.this, "Sucess", Toast.LENGTH_SHORT).show();
+
+                            RealizaRequisicao.getInstance().post(CadastroPassageiro.this, urlTrocaSenha(p, senha), new VolleyCallbackObject() {
+                                @Override
+                                public void onSuccess(JSONObject result) {
+                                    Retorno retornoSenha = new Retorno();
+                                    try{
+                                        if(result.getString("retorno").equals("true")){
+                                            Toast.makeText(CadastroPassageiro.this, "Senha Alterada", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toast.makeText(CadastroPassageiro.this, "Não foi possível alterar a senha !", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }catch(JSONException e){
+                                        Toast.makeText(CadastroPassageiro.this, "Não foi possível alterar a senha !", Toast.LENGTH_SHORT).show();
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            });
                         }
+                        avancarTela();
+                        dialogSenha.dismiss();
+
                     }
                 });
 
@@ -316,6 +338,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        avancarTela();
 
                     }
                 });
@@ -323,5 +346,18 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
         alertDialog.show();
     }
 
+    private String urlTrocaSenha(Passageiro p, String novaSenha){
+        String url = SppdTools.getInstance().getEndPoint() + "/login/alterarSenha/" + p.getCpf() + "/" + novaSenha;
+        Log.d(null, "urlTrocaSenha: " + url);
+        return url;
+    }
+
+    private void avancarTela(){
+        Intent intent = new Intent(CadastroPassageiro.this, Simulador.class);
+        intent.putExtra("passageiro", p);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+        finish();
+    }
 
 }

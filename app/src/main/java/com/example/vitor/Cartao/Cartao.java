@@ -13,6 +13,8 @@ public class Cartao {
     private double saldo;
     private double ultimoMovimento;
 
+    private boolean clicado;
+
     public Cartao(){
 
     }
@@ -21,6 +23,7 @@ public class Cartao {
         this.codCartao = numCartao;
         this.categoria = categoria.getCategoria();
         this.saldo = saldo;
+        this.clicado = false;
     }
 
     public Cartao(String codCartao, CategoriaCartao categoria, int codPassageiro, int ativo, double saldo,
@@ -32,6 +35,7 @@ public class Cartao {
         this.ativo = ativo;
         this.saldo = saldo;
         this.ultimoMovimento = ultimoMovimento;
+        this.clicado = false;
     }
 
     public Cartao(String codCartao, int categoria, int codPassageiro, int ativo, double saldo,
@@ -43,17 +47,20 @@ public class Cartao {
         this.ativo = ativo;
         this.saldo = saldo;
         this.ultimoMovimento = ultimoMovimento;
+        this.clicado = false;
     }
 
     public Cartao(String codCartao, int codPassageiro){
         this.codCartao = codCartao;
         this.codPassageiro = codPassageiro;
+        this.clicado = false;
     }
 
     public Cartao(String codCartao, int codPassageiro, CategoriaCartao categoria){
         this.codCartao = codCartao;
         this.codPassageiro = codPassageiro;
         this.categoria = categoria.getCategoria();
+        this.clicado = false;
     }
 
     public String getCodCartao() {
@@ -147,6 +154,14 @@ public class Cartao {
     public String toString() {
         return "Cartao [codCartao=" + codCartao + ", categoria=" + categoria + ", codPassageiro=" + codPassageiro
                 + ", ativo=" + ativo + ", saldo=" + saldo + ", ultimoMovimento=" + ultimoMovimento + "]";
+    }
+
+    public boolean isClicado() {
+        return clicado;
+    }
+
+    public void setClicado(boolean clicado) {
+        this.clicado = clicado;
     }
 
 }

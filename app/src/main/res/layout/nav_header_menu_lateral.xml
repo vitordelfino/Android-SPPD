@@ -12,7 +12,8 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:orientation="vertical"
     android:baselineAligned="false"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:id="@+id/cabecalhoMenu">
 
     <ImageView
         android:id="@+id/imagemUsuario"
@@ -31,7 +32,7 @@
         android:id="@+id/nomeUsuario" />
 
     <TextView
-        android:id="@+id/txtNumCartao"
+        android:id="@+id/nomeUsuarioMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="android.studio@android.com" />

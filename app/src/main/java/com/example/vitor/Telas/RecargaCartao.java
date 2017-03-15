@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -50,8 +51,7 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
     EditText txtValor;
     TextView aux;
     Passageiro passageiro;
-
-
+    int opt = 0;
     private ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +78,11 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
     }
 
 
-
     public void listaCartoes(Passageiro passageiro){
         dialog = ProgressDialog.show(RecargaCartao.this,"Processando","Carregando Cartões", false, true);
         dialog.setCancelable(false);
         final ArrayList<Cartao> cartao = new ArrayList<Cartao>();
+
         new Thread(){
             public void run(){
 
@@ -90,6 +90,7 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
                     RealizaRequisicao.getInstance().get(RecargaCartao.this, url(), new VolleyCallbackObject() {
                         @Override
                         public void onSuccess(JSONObject result) {
+
                             try {
                                 JSONArray jo = result.getJSONArray("cartao");
                                 for(int i = 0; i < jo.length(); i++){
@@ -105,7 +106,17 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
 
                                 }
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                try{
+                                    result = result.getJSONObject("cartao");
+                                    cartao.add(new Cartao(result.getString("codCartao"),
+                                            Integer.parseInt(result.getString("categoria")),
+                                            Integer.parseInt(result.getString("codPassageiro")),
+                                            Integer.parseInt(result.getString("ativo")),
+                                            Double.parseDouble(result.getString("saldo")),
+                                            Double.parseDouble(result.getString("ultimoMovimento"))));
+                                }catch(JSONException ex){
+                                    ex.printStackTrace();
+                                }
                             }
                         }});
 
@@ -125,16 +136,52 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
 
     }
 
+
     public void montaLayout(final ArrayList<Cartao> cartao){
-        CartaoAdapter cartaoAdapter = new CartaoAdapter(this, cartao);
+        final CartaoAdapter cartaoAdapter = new CartaoAdapter(this, cartao, passageiro);
 
         final ListView listView = (ListView) super.findViewById(R.id.lstCartoes);
         listView.setAdapter(cartaoAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cartao c = (Cartao) listView.getAdapter().getItem(i);
-                alertCarregaCartao(c);
+                final Cartao c = (Cartao) listView.getAdapter().getItem(i);
+                if(!c.isClicado()){
+                    c.setClicado(true);
+                }else{
+                    c.setClicado(false);
+                }
+                cartaoAdapter.notifyDataSetChanged();
+                //alertCarregaCartao(c);
+                /*LinearLayout opcoes = (LinearLayout) findViewById(R.id.opcoesCard);
+                if(opt == 0) {
+                    opt++;
+                    final Cartao c = (Cartao) listView.getAdapter().getItem(i);
+
+                    opcoes.setVisibility(View.VISIBLE);
+                    TextView ativar = (TextView) findViewById(R.id.optAtivar);
+                    TextView carregar = (TextView) findViewById(R.id.optCarregar);
+
+                    ativar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    });
+
+                    carregar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertCarregaCartao(c);
+                        }
+                    });
+                }else{
+                    opt--;
+                    opcoes.setVisibility(View.INVISIBLE);
+                }*/
+
+
+
             }
         });
     }
@@ -214,7 +261,7 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
     private void alertCarregaCartao(final Cartao c){
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(RecargaCartao.this);
-        alertDialog.setTitle("RECARGA");
+        alertDialog.setTitle("RECARGA ("+c.getCodCartao()+")");
         alertDialog.setMessage("Entre com valor de recarga");
 
         final EditText valor = new EditText(RecargaCartao.this);
@@ -275,7 +322,7 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
                                     Retorno retorno = new Retorno();
                                     retorno.setstatusMessage(result.getString("status"));
                                     Toast.makeText(RecargaCartao.this, retorno.getstatusMessage(), Toast.LENGTH_SHORT).show();
-                                    listaCartoes(passageiro);
+                                    //listaCartoes(passageiro);
                                 }catch(Exception e){
 
                                 }

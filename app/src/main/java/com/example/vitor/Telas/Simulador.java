@@ -1,5 +1,6 @@
 package com.example.vitor.Telas;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +11,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,8 +75,12 @@ public class Simulador extends AppCompatActivity
 
         Intent intent = getIntent();
         p = (Passageiro) intent.getSerializableExtra("passageiro");
+
         carregaEstacoes();
 
+    }
+
+    public void atualizaMenu(){
     }
 
     public void clicar(View src){

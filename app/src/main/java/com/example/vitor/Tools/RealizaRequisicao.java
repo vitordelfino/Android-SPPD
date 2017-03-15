@@ -81,7 +81,7 @@ public class RealizaRequisicao {
         request.add(requisicao);
     }
 
-    public void post(Context contexto, String url, final VolleyCallbackObject callback){
+    public void  post(Context contexto, String url, final VolleyCallbackObject callback){
         final RequestQueue request = Volley.newRequestQueue(contexto);
 
         final JsonObjectRequest requisicao = new JsonObjectRequest(Request.Method.POST, url,

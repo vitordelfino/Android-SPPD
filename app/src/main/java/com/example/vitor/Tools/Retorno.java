@@ -6,7 +6,7 @@ package com.example.vitor.Tools;
 
 public class Retorno {
 
-    private boolean status;
+    private boolean status = false;
     private String statusMessage;
 
     public synchronized String getstatusMessage() {

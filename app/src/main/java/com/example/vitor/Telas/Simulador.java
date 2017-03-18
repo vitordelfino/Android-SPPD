@@ -29,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.vitor.Estacao.Estacao;
 import com.example.vitor.Passageiro.Passageiro;
+import com.example.vitor.Tools.LoginAssistant;
 import com.example.vitor.Tools.SppdTools;
 import com.example.vitor.testevolley.R;
 
@@ -147,7 +148,10 @@ public class Simulador extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+
+            LoginAssistant.deslogarUsuario(this);
+
             return true;
         }
 
@@ -165,9 +169,11 @@ public class Simulador extends AppCompatActivity
             intent.putExtra("passageiro", p);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
-            finish();
-        } else if (id == R.id.nav_gallery) {
-
+        } else if (id == R.id.nav_gerenciar_conta) {
+            Intent intent = new Intent(this, GerenciarConta.class);
+            intent.putExtra("passageiro", p);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

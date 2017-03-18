@@ -3,13 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_gerenciar_conta"
+            android:icon="@drawable/ic_account_circle_black_24px"
+            android:title="Gerenciar Conta" />
+        <item
             android:id="@+id/nav_recarregar"
             android:icon="@drawable/ic_payment_black_24px"
             android:title="Recarga" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"

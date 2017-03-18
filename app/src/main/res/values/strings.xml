@@ -9,4 +9,5 @@
     <string name="title_activity_cadastro_passageiro">CadastroPassageiro</string>
     <string name="title_activity_menu_lateral">MenuLateral</string>
     <string name="title_activity_recarga_cartao">RecargaCartao</string>
+    <string name="title_activity_gerenciar_conta">Gerenciar Conta</string>
 </resources>

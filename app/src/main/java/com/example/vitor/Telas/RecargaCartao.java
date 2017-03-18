@@ -118,22 +118,17 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
                                     ex.printStackTrace();
                                 }
                             }
-                        }});
+                            montaLayout(cartao);
+                        }
+                    }
+                    );
 
-                    Thread.sleep(3000);
                 }catch(Exception e ){
                 }
-                dialog.dismiss();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        montaLayout(cartao);
-                    }
-                });
 
             }
         }.start();
-
+        dialog.dismiss();
     }
 
 
@@ -221,7 +216,7 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
             return true;
         }
 
@@ -235,14 +230,12 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
 
         if (id == R.id.nav_recarregar) {
-            Toast.makeText(this, "Clicou em nav_carregar", Toast.LENGTH_SHORT).show();
-            /*
-            Intent intent = new Intent(this, Simulador.class);
+
+        } else if (id == R.id.nav_gerenciar_conta) {
+            Intent intent = new Intent(this, GerenciarConta.class);
+            intent.putExtra("passageiro", passageiro);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
-            */
-
-        } else if (id == R.id.nav_gallery) {
-
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -276,7 +269,7 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
 
         alertDialog.setView(valor);
 
-        alertDialog.setPositiveButton("YES",
+        alertDialog.setPositiveButton("Sim",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -292,7 +285,7 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
                     }
                 });
 
-        alertDialog.setNegativeButton("NO",
+        alertDialog.setNegativeButton("Não",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -306,7 +299,7 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
         alertDialog.setTitle("CONFIRMAÇÃO DE RECARGA");
         alertDialog.setMessage("Deseja realizar a recarga de R$ " + valorRecarga + " ");
 
-        alertDialog.setPositiveButton("YES",
+        alertDialog.setPositiveButton("Sim",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         JSONObject jo = new JSONObject();
@@ -332,7 +325,7 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
                     }
                 });
 
-        alertDialog.setNegativeButton("NO",
+        alertDialog.setNegativeButton("Não",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();

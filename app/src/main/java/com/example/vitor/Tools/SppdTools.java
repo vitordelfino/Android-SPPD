@@ -9,7 +9,7 @@ package com.example.vitor.Tools;
 //ip hotspot celular 192.168.43.72
 public class SppdTools {
     private static SppdTools sppdTools = null;
-    private String dominio = "http://192.168.183.205:8080";
+    private String dominio = "http://192.168.15.10:8080";
 
     private SppdTools(){
 

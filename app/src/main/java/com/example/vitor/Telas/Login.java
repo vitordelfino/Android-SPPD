@@ -125,79 +125,62 @@ public class Login extends AppCompatActivity implements MontarUrl {
         }
     }
 
-    public synchronized void logar(View view){
+    public void logar(View view){
 
         if(validaCampos()){
-            dialog = ProgressDialog.show(Login.this,"Processando","Confirmando dados....", false, true);
-            dialog.setCancelable(false);
-            new Thread() {
-                public void run() {
-                    try {
 
+            RealizaRequisicao.getInstance().get(Login.this, url(), new VolleyCallbackObject() {
+                @Override
+                public void onSuccess(JSONObject result) {
+                try {
+                    result = result.getJSONObject("loginBean");
+                    if(result.getString("retorno").equalsIgnoreCase("true")){
+                        retorno.setRetorno(StatusRetorno.YES);
+                    }else{
+                        retorno.setRetorno(StatusRetorno.NO);
+                    }
+                    retorno.setstatusMessage(result.getString("statusRetorno"));
 
-                        RealizaRequisicao.getInstance().get(Login.this, url(), new VolleyCallbackObject() {
-                            @Override
-                            public void onSuccess(JSONObject result) {
-                                try {
-                                    result = result.getJSONObject("loginBean");
-                                    if(result.getString("retorno").equalsIgnoreCase("true")){
-                                        retorno.setRetorno(StatusRetorno.YES);
-                                    }else{
-                                        retorno.setRetorno(StatusRetorno.NO);
-                                    }
+                    if (retorno.isSucess()) {
 
-                                    retorno.setstatusMessage(result.getString("statusRetorno"));
+                        result = result.getJSONObject("passageiro");
+                        passageiro.setBairro(result.getString("bairro"));
+                        passageiro.setCep(result.getString("cep"));
+                        passageiro.setCodPassageiro(Integer.parseInt(result.getString("codPassageiro")));
+                        passageiro.setComplemento(result.getString("complemento"));
+                        passageiro.setCpf(result.getString("cpf"));
+                        passageiro.setDeficiente(Boolean.parseBoolean(result.getString("deficiente")));
+                        passageiro.setLogradouro(result.getString("logradouro"));
+                        passageiro.setMunicipio(result.getString("cpf"));
+                        passageiro.setNascimento(result.getString("nascimento"));
+                        passageiro.setNumero(result.getString("numero"));
+                        passageiro.setRg(result.getString("rg"));
+                        passageiro.setNome(result.getString("nome"));
+                        Log.d("RetornoLogin", "onSuccess: " + retorno.getstatusMessage());
 
+                        LoginAssistant.gravarUsuarioNoBanco(Login.this,usuario.getText().toString(),
+                                             senha.getText().toString(),
+                                             passageiro.getNome());
 
+                        Toast.makeText(Login.this, "Logado com: " + passageiro.getNome(), Toast.LENGTH_SHORT).show();
 
-                                    if (retorno.isSucess()) {
+                        Intent intent = new Intent(Login.this, Simulador.class);
+                        intent.putExtra("passageiro", passageiro);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
 
-                                        result = result.getJSONObject("passageiro");
-                                        passageiro.setBairro(result.getString("bairro"));
-                                        passageiro.setCep(result.getString("cep"));
-                                        passageiro.setCodPassageiro(Integer.parseInt(result.getString("codPassageiro")));
-                                        passageiro.setComplemento(result.getString("complemento"));
-                                        passageiro.setCpf(result.getString("cpf"));
-                                        passageiro.setDeficiente(Boolean.parseBoolean(result.getString("deficiente")));
-                                        passageiro.setLogradouro(result.getString("logradouro"));
-                                        passageiro.setMunicipio(result.getString("cpf"));
-                                        passageiro.setNascimento(result.getString("nascimento"));
-                                        passageiro.setNumero(result.getString("numero"));
-                                        passageiro.setRg(result.getString("rg"));
-                                        passageiro.setNome(result.getString("nome"));
-                                        Log.d("RetornoLogin", "onSuccess: " + retorno.getstatusMessage());
+                        finish();
 
-                                        LoginAssistant.gravarUsuarioNoBanco(Login.this,usuario.getText().toString(),
-                                                             senha.getText().toString(),
-                                                             passageiro.getNome());
+                    } else {
+                        Toast.makeText(Login.this, retorno.getstatusMessage(), Toast.LENGTH_SHORT).show();
+                    }
 
-                                        Toast.makeText(Login.this, "Logado com: " + passageiro.getNome(), Toast.LENGTH_SHORT).show();
-
-                                        Intent intent = new Intent(Login.this, Simulador.class);
-                                        intent.putExtra("passageiro", passageiro);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                        startActivity(intent);
-
-                                        finish();
-
-                                    } else {
-                                        Toast.makeText(Login.this, retorno.getstatusMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-
-                    }catch (Exception e) { }
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }.start();
-            dialog.dismiss();
+                }
+            });
         }
-
-
     }
 
     public void registrar(View view){

@@ -57,6 +57,10 @@
         <activity
             android:name="com.example.vitor.Telas.GerenciarConta"
             android:label="@string/title_activity_gerenciar_conta"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.vitor.Telas.HistoSaldoCartao"
+            android:label="@string/title_activity_histo_saldo_cartao"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

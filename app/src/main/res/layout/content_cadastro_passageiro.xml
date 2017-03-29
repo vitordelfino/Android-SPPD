@@ -30,7 +30,7 @@
             android:ems="10"
             android:id="@+id/txtNome"
             android:hint="NOME"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:ems="10"
             android:id="@+id/txtCPF"
             android:hint="CPF"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -50,7 +50,17 @@
             android:ems="10"
             android:id="@+id/txtRG"
             android:hint="RG"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
+
+        <EditText
+            android:id="@+id/txtCEP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="CEP"
+            android:inputType="number"
+            android:text=""
+            android:textAlignment="textStart" />
 
         <EditText
             android:layout_width="match_parent"
@@ -60,7 +70,7 @@
             android:ems="10"
             android:id="@+id/txtLogradouro"
             android:hint="LOGRADOURO"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -70,7 +80,7 @@
             android:ems="10"
             android:id="@+id/txtNumero"
             android:hint="NUMERO"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -80,17 +90,7 @@
             android:ems="10"
             android:id="@+id/txtComplemento"
             android:hint="COMPLEMENTO"
-            android:textAlignment="center"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text=""
-            android:ems="10"
-            android:id="@+id/txtCEP"
-            android:hint="CEP"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -100,7 +100,7 @@
             android:ems="10"
             android:id="@+id/txtBairro"
             android:hint="BAIRRO"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -110,7 +110,7 @@
             android:ems="10"
             android:id="@+id/txtMunicipio"
             android:hint="MUNICIPIO"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
 
 
         <EditText
@@ -120,21 +120,22 @@
             android:ems="10"
             android:id="@+id/txtData"
             android:hint="NASCIMENTO"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
 
         <Spinner
+            android:id="@+id/txtDeficiente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/txtDeficiente"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart" />
 
         <Button
-            android:text="Salvar"
+            android:id="@+id/btnSalvar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnSalvar"
-            android:textAlignment="center"
-            android:onClick="registrar"/>
+            android:onClick="registrar"
+            android:text="Salvar"
+            android:textAlignment="textStart"
+            android:textColor="@color/colorPrimary" />
 
 
     </LinearLayout>

@@ -1,11 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_gerenciar_conta"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.vitor.Telas.GerenciarConta"
+    tools:layout_editor_absoluteX="19dp"
+    tools:layout_editor_absoluteY="11dp"
     tools:showIn="@layout/app_bar_gerenciar_conta">
 
-</android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="300px"
+        android:layout_height="350px"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:clickable="true"
+        android:onClick="alterarImagem"/>
+
+    <EditText
+        android:id="@+id/txtNome_config"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="NOME"
+        android:inputType="textPersonName"
+        android:text=""
+        android:textAlignment="center"
+        android:layout_below="@+id/imgAvatar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/txtNovaSenha_config"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:hint="NOVA SENHA"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:layout_below="@+id/txtNome_config"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/txtConfirmacaoSenha_config"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:hint="CONFIRMAÇÃO SENHA"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:layout_below="@+id/txtNovaSenha_config"
+        android:layout_alignLeft="@+id/txtNovaSenha_config"
+        android:layout_alignStart="@+id/txtNovaSenha_config" />
+
+    <Button
+        android:id="@+id/btnAlterarSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alterar Senha"
+        android:onClick="alterarSenha"
+        android:layout_below="@+id/txtConfirmacaoSenha_config"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp" />
+
+
+</RelativeLayout>

@@ -84,14 +84,14 @@ public class MenuLateral extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_recarregar) {
+        if (id == R.id.nav_gerenciar_cartoes) {
             Toast.makeText(this, "Clicou em nav_carregar", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(this, Simulador.class);
             startActivity(intent);
 
 
-        } else if (id == R.id.nav_gerenciar_conta) {
+        } else if (id == R.id.nav_gerenciar_perfil) {
 
         } else if (id == R.id.nav_slideshow) {
 

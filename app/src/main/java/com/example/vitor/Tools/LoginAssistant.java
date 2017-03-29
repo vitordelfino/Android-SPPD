@@ -21,8 +21,8 @@ public class LoginAssistant {
 
     public static void gravarUsuarioNoBanco(final Context contexto, String login, String password, String nome){
         SQLiteDatabase db = contexto.openOrCreateDatabase("SPPD",contexto.MODE_PRIVATE,null);
-        db.execSQL("UPDATE LOGIN SET LOGIN = " + login +
-                ", SENHA = " + password +
+        db.execSQL("UPDATE LOGIN SET LOGIN = " + login.replace(".","").replace("-","") +
+                ", SENHA = " + password.replace(".","").replace("-","") +
                 ", NOME = '" + nome +
                 "' WHERE ID = 1 ");
     }

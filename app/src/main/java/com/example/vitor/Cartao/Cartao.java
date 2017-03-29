@@ -1,10 +1,13 @@
 package com.example.vitor.Cartao;
 
+import java.io.Serializable;
+import java.text.DecimalFormat;
+
 /**
  * Created by vitor on 28/02/17.
  */
 
-public class Cartao {
+public class Cartao implements Serializable {
 
     private String codCartao;
     private int categoria;
@@ -33,7 +36,7 @@ public class Cartao {
         this.categoria = categoria.getCategoria();
         this.codPassageiro = codPassageiro;
         this.ativo = ativo;
-        this.saldo = saldo;
+        this.setSaldo(saldo);
         this.ultimoMovimento = ultimoMovimento;
         this.clicado = false;
     }
@@ -45,7 +48,7 @@ public class Cartao {
         this.setCategoria(categoria);
         this.codPassageiro = codPassageiro;
         this.ativo = ativo;
-        this.saldo = saldo;
+        this.setSaldo(saldo);
         this.ultimoMovimento = ultimoMovimento;
         this.clicado = false;
     }
@@ -100,7 +103,9 @@ public class Cartao {
     }
 
     public void setSaldo(double saldo) {
-        this.saldo = saldo;
+
+        DecimalFormat fmt = new DecimalFormat("0.00");
+        this.saldo = Double.parseDouble(fmt.format(saldo));
     }
 
     public double getUltimoMovimento() {

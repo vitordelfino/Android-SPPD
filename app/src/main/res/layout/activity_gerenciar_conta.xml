@@ -9,7 +9,7 @@
     tools:openDrawer="start"
     tools:context="com.example.vitor.Telas.GerenciarConta">
 
-    <include layout="@layout/app_bar_recarga_cartao"
+    <include layout="@layout/app_bar_gerenciar_conta"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

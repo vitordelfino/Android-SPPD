@@ -10,4 +10,5 @@
     <string name="title_activity_menu_lateral">MenuLateral</string>
     <string name="title_activity_recarga_cartao">RecargaCartao</string>
     <string name="title_activity_gerenciar_conta">Gerenciar Conta</string>
+    <string name="title_activity_histo_saldo_cartao">HistoSaldoCartao</string>
 </resources>

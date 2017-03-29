@@ -28,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.vitor.Interfaces.MontarUrl;
 import com.example.vitor.Interfaces.VolleyCallbackObject;
 import com.example.vitor.Passageiro.Passageiro;
+import com.example.vitor.Tools.LoginAssistant;
 import com.example.vitor.Tools.RealizaRequisicao;
 import com.example.vitor.Tools.Retorno;
 import com.example.vitor.Tools.SppdTools;
@@ -49,7 +50,6 @@ import java.util.Map;
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
 
-    private ProgressDialog dialog;
 
     private Spinner txtDeficiente;
     private EditText txtnome;
@@ -86,6 +86,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
         setContentView(R.layout.activity_cadastro_passageiro);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        listDeficiente.add("Deficiente ?");
         listDeficiente.add("Não");
         listDeficiente.add("Sim");
 
@@ -103,6 +104,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
         txtcomplemento = (EditText) findViewById(R.id.txtComplemento);
         txtcep = (EditText) findViewById(R.id.txtCEP);
         txtcep.addTextChangedListener(Mask.insert(Mask.CEP_MASK, txtcep));
+
         txtbairro = (EditText) findViewById(R.id.txtBairro);
         txtmunicipio = (EditText) findViewById(R.id.txtMunicipio);
         txtnascimento = (EditText) findViewById(R.id.txtData);
@@ -110,9 +112,37 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
 
 
 
+        txtcep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    RealizaRequisicao.getInstance().get(CadastroPassageiro.this, buscaCep(txtcep.getText().toString()), new VolleyCallbackObject() {
+                        @Override
+                        public void onSuccess(JSONObject result) {
+                            try{
+
+                                Log.d("", "onSuccess: " + result.toString());
+                                txtmunicipio.setText(result.getString("localidade"));
+                                txtlogradouro.setText(result.getString("logradouro"));
+                                txtbairro.setText(result.getString("bairro"));
+                            }catch(Exception e){
+                            }
+
+                        }
+                    });
+
+                }
+            }
+        });
     }
 
-    public synchronized void registrar(View view){
+    public String buscaCep(String cep){
+        Log.d("", "buscaCep: "+"https://viacep.com.br/ws/"+cep.replaceAll("-","")+"/json/");
+        return "https://viacep.com.br/ws/"+cep.replaceAll("-","")+"/json/";
+    }
+
+    public void registrar(View view){
         nome = txtnome.getText().toString();
         cpf = txtcpf.getText().toString();
         rg = txtrg.getText().toString();
@@ -123,86 +153,63 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
         bairro = txtbairro.getText().toString();
         municipio = txtmunicipio.getText().toString();
         nascimento = txtnascimento.getText().toString();
-        if(txtDeficiente.getSelectedItemPosition() == 1){
+        if(txtDeficiente.getSelectedItemPosition() == 2){
             isDeficiente = true;
         }
         p = new Passageiro(0,nome,cpf,rg,logradouro,numero,complemento,cep,bairro,municipio,nascimento,isDeficiente);
-        dialog = ProgressDialog.show(CadastroPassageiro.this,"Processando","Realizando Cadastro....", false, true);
-        dialog.setCancelable(false);
-        new Thread() {
-            public void run() {
+
+        RealizaRequisicao.getInstance().postJson(CadastroPassageiro.this, url(),p.montarJson(), new VolleyCallbackObject() {
+            @Override
+            public void onSuccess(JSONObject result) {
                 try {
+                    result = result.getJSONObject("retorno");
+                    retorno.setstatusMessage(result.getString("status"));
+                    if (result.getString("retorno").equalsIgnoreCase("true")){
+                        atualizaLoginAutomatico(p.getCpf(),p.getCpf(),p.getNome());
 
-                    RealizaRequisicao.getInstance().postJson(CadastroPassageiro.this, url(),p.montarJson(), new VolleyCallbackObject() {
-                        @Override
-                        public void onSuccess(JSONObject result) {
-                            try {
-                                result = result.getJSONObject("retorno");
+                        AlertDialog.Builder configAlerta = new AlertDialog.Builder(CadastroPassageiro.this);
 
-                                /**
-                                 * atualizar passageiro com codRetornado
-                                 */
-
-
-                                retorno.setstatusMessage(result.getString("status"));
-                                if (result.getString("retorno").equalsIgnoreCase("true")){
-                                    retorno.setRetorno(StatusRetorno.YES);
-                                }else{
-                                    retorno.setRetorno(StatusRetorno.NO);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                        configAlerta.setTitle("ALERTA");
+                        configAlerta.setMessage("Sua senha é o seu CPF, deseja alterar agora?");
+                        configAlerta.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(CadastroPassageiro.this, Simulador.class);
+                                intent.putExtra("passageiro", p);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(intent);
+                                finish();
                             }
-                        }
-                    });
-                    Thread.sleep(1500);
-                    /**
-                     * aprender a sincronizar as threads com wait e notify
-                     */
-                }catch (Exception e) {
-                }
-                dialog.dismiss();
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        if (retorno.isSucess()) {
-                            AlertDialog.Builder configAlerta = new AlertDialog.Builder(CadastroPassageiro.this);
+                        });
 
-                                configAlerta.setTitle("ALERTA");
-                                configAlerta.setMessage("Sua senha é o seu CPF, deseja alterar agora?");
-                                configAlerta.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        Intent intent = new Intent(CadastroPassageiro.this, Simulador.class);
-                                        intent.putExtra("passageiro", p);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                });
+                        configAlerta.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                alertAlterarSenha(p);
 
-                                configAlerta.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        alertAlterarSenha(p);
+                            }
+                        });
+                        AlertDialog alerta = configAlerta.create();
+                        alerta.show();
 
-                                    }
-                                });
-                                AlertDialog alerta = configAlerta.create();
-                                alerta.show();
-
-
-                        } else {
-                            Toast.makeText(CadastroPassageiro.this, retorno.getstatusMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                    }else{
+                        Toast.makeText(CadastroPassageiro.this, retorno.getstatusMessage(), Toast.LENGTH_SHORT).show();
                     }
-
-
-                });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        }.start();
+        });
+    }
 
 
 
+
+
+
+    private void atualizaLoginAutomatico(String longin, String senha, String nome){
+        LoginAssistant.gravarUsuarioNoBanco(CadastroPassageiro.this,longin,senha,
+                nome);
     }
 
     public void realizaCadastro(String url, final Login.VolleyCallback callback){
@@ -317,6 +324,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
                                     try{
                                         if(result.getString("retorno").equals("true")){
                                             Toast.makeText(CadastroPassageiro.this, "Senha Alterada", Toast.LENGTH_SHORT).show();
+                                            atualizaLoginAutomatico(p.getCpf(),senha,p.getNome());
                                         }else{
                                             Toast.makeText(CadastroPassageiro.this, "Não foi possível alterar a senha !", Toast.LENGTH_SHORT).show();
                                         }
@@ -347,7 +355,7 @@ public class CadastroPassageiro extends AppCompatActivity implements MontarUrl {
     }
 
     private String urlTrocaSenha(Passageiro p, String novaSenha){
-        String url = SppdTools.getInstance().getEndPoint() + "/login/alterarSenha/" + p.getCpf() + "/" + novaSenha;
+        String url = SppdTools.getInstance().getEndPoint() + "/login/alterarSenha/" + p.getCpf().replace(".","").replace("-","") + "/" + novaSenha;
         Log.d(null, "urlTrocaSenha: " + url);
         return url;
     }

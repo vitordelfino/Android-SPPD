@@ -15,9 +15,9 @@
     tools:showIn="@layout/app_bar_recarga_cartao">
 
     <ListView
+        android:id="@+id/lstCartoes"
         android:layout_width="match_parent"
-        android:layout_height="417dp"
-        android:id="@+id/lstCartoes" />
+        android:layout_height="match_parent" />
 
 
 

@@ -52,7 +52,6 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
     TextView aux;
     Passageiro passageiro;
     int opt = 0;
-    private ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +78,6 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
 
 
     public void listaCartoes(Passageiro passageiro){
-        dialog = ProgressDialog.show(RecargaCartao.this,"Processando","Carregando Cartões", false, true);
-        dialog.setCancelable(false);
         final ArrayList<Cartao> cartao = new ArrayList<Cartao>();
 
         new Thread(){
@@ -128,7 +125,6 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
 
             }
         }.start();
-        dialog.dismiss();
     }
 
 
@@ -147,36 +143,12 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
                     c.setClicado(false);
                 }
                 cartaoAdapter.notifyDataSetChanged();
-                //alertCarregaCartao(c);
-                /*LinearLayout opcoes = (LinearLayout) findViewById(R.id.opcoesCard);
-                if(opt == 0) {
-                    opt++;
-                    final Cartao c = (Cartao) listView.getAdapter().getItem(i);
 
-                    opcoes.setVisibility(View.VISIBLE);
-                    TextView ativar = (TextView) findViewById(R.id.optAtivar);
-                    TextView carregar = (TextView) findViewById(R.id.optCarregar);
-
-                    ativar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    });
-
-                    carregar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            alertCarregaCartao(c);
-                        }
-                    });
-                }else{
-                    opt--;
-                    opcoes.setVisibility(View.INVISIBLE);
-                }*/
-
-
-
+                Intent intent = new Intent(RecargaCartao.this, HistoSaldoCartao.class);
+                intent.putExtra("passageiro", passageiro);
+                intent.putExtra("cartao", c);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
             }
         });
     }
@@ -229,9 +201,9 @@ public class RecargaCartao extends AppCompatActivity implements NavigationView.O
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_recarregar) {
+        if (id == R.id.nav_gerenciar_cartoes) {
 
-        } else if (id == R.id.nav_gerenciar_conta) {
+        } else if (id == R.id.nav_gerenciar_perfil) {
             Intent intent = new Intent(this, GerenciarConta.class);
             intent.putExtra("passageiro", passageiro);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

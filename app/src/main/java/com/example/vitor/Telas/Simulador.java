@@ -43,7 +43,6 @@ import java.util.List;
 public class Simulador extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     boolean  responseOk;
-    private ProgressDialog dialog;
     private List<Estacao> estacoesObj; //-- lista para validar a estacao selecionada
     private List<String> nomeEstacoes; //-- lista para mostrar as estacoes
     private Spinner entradaEstacoes;
@@ -77,6 +76,10 @@ public class Simulador extends AppCompatActivity
         Intent intent = getIntent();
         p = (Passageiro) intent.getSerializableExtra("passageiro");
 
+        View header=navigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.nomeUsuarioMenu);
+        name.setText(p.getNome());
+
         carregaEstacoes();
 
     }
@@ -90,8 +93,6 @@ public class Simulador extends AppCompatActivity
         saidaSelecionada = saidaEstacoes.getSelectedItemPosition();
 
         //mostra a telinha de processando
-        dialog = ProgressDialog.show(Simulador.this,"Processando","Buscando melhor caminho....", false, true);
-        dialog.setCancelable(false);
 
         new Thread() {
             public void run() {
@@ -99,7 +100,6 @@ public class Simulador extends AppCompatActivity
                     responseOk = testar();
                 }catch (Exception e) {
                 }
-                dialog.dismiss();
                 runOnUiThread(new Runnable() {
                     public void run() {
                         Toast.makeText(Simulador.this, "Informacao \r\nEntrada = " + estacoesObj.get(entradaSelecionada).getIdEstacao() +
@@ -164,12 +164,12 @@ public class Simulador extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_recarregar) {
+        if (id == R.id.nav_gerenciar_cartoes) {
             Intent intent = new Intent(this, RecargaCartao.class);
             intent.putExtra("passageiro", p);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
-        } else if (id == R.id.nav_gerenciar_conta) {
+        } else if (id == R.id.nav_gerenciar_perfil) {
             Intent intent = new Intent(this, GerenciarConta.class);
             intent.putExtra("passageiro", p);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);

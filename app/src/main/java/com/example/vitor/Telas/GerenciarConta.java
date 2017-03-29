@@ -1,7 +1,11 @@
 package com.example.vitor.Telas;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -13,6 +17,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vitor.Passageiro.Passageiro;
@@ -23,6 +29,9 @@ import com.example.vitor.testevolley.R;
 public class GerenciarConta extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     Passageiro passageiro;
+    ImageView img;
+    ImageView imagemUsuario;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +49,37 @@ public class GerenciarConta extends AppCompatActivity implements NavigationView.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
 
         Intent intent = getIntent();
         passageiro = (Passageiro) intent.getSerializableExtra("passageiro");
+        TextView name = (TextView)header.findViewById(R.id.nomeUsuarioMenu);
+        name.setText(passageiro.getNome());
+
+        imagemUsuario = (ImageView) header.findViewById(R.id.imagemUsuario);
+        img = (ImageView) findViewById(R.id.imgAvatar);
 
     }
 
+    public void alterarImagem(View view){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            /*imageBitmap.setWidth(300);
+            imageBitmap.setHeight(350);*/
+            img.setImageBitmap(imageBitmap);
+            imagemUsuario.setImageBitmap(imageBitmap);
+        }
+    }
 
 
     @Override
@@ -87,13 +120,13 @@ public class GerenciarConta extends AppCompatActivity implements NavigationView.
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_recarregar) {
+        if (id == R.id.nav_gerenciar_cartoes) {
             Intent intent = new Intent(this, RecargaCartao.class);
             intent.putExtra("passageiro", passageiro);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
 
-        } else if (id == R.id.nav_gerenciar_conta) {
+        } else if (id == R.id.nav_gerenciar_perfil) {
 
         } else if (id == R.id.nav_slideshow) {
 

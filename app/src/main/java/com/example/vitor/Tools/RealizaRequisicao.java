@@ -1,5 +1,6 @@
 package com.example.vitor.Tools;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 
@@ -27,9 +28,8 @@ import java.util.Map;
  */
 
 public class RealizaRequisicao {
-
+    private ProgressDialog dialog;
     private static RealizaRequisicao realizaRequisicao = null;
-
     private RealizaRequisicao(){
 
     }
@@ -49,16 +49,21 @@ public class RealizaRequisicao {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                            callback.onSuccess(response);
+                        callback.onSuccess(response);
+                        dialog.dismiss();
                     }
                 }, new Response.ErrorListener(){
 
             @Override
             public void onErrorResponse(VolleyError error ) {
                 Log.i("ERROR", "onErrorResponse: " + error );
+                dialog.dismiss();
             }
         });
         request.add(requisicao);
+        dialog = new ProgressDialog(contexto);
+        dialog.setMessage("Carregando....");
+        dialog.show();
     }
 
     public void getArray(Context contexto, String url, final VolleyCallbackArray callback){
@@ -70,15 +75,20 @@ public class RealizaRequisicao {
                     @Override
                     public void onResponse(JSONArray response) {
                         callback.onSucess(response);
+                        dialog.dismiss();
                     }
                 }, new Response.ErrorListener(){
 
             @Override
             public void onErrorResponse(VolleyError error ) {
                 Log.i("ERROR", "onErrorResponse: " + error );
+                dialog.dismiss();
             }
         });
         request.add(requisicao);
+        dialog = new ProgressDialog(contexto);
+        dialog.setMessage("Carregando....");
+        dialog.show();
     }
 
     public void  post(Context contexto, String url, final VolleyCallbackObject callback){
@@ -90,12 +100,14 @@ public class RealizaRequisicao {
                     @Override
                     public void onResponse(JSONObject response) {
                         callback.onSuccess(response);
+                        dialog.dismiss();
                     }
                 }, new Response.ErrorListener(){
 
             @Override
             public void onErrorResponse(VolleyError error ) {
                 Log.i("ERROR", "onErrorResponse: " + error );
+                dialog.dismiss();
             }
         }){
             @Override
@@ -106,6 +118,9 @@ public class RealizaRequisicao {
             }
         };
         request.add(requisicao);
+        dialog = new ProgressDialog(contexto);
+        dialog.setMessage("Carregando....");
+        dialog.show();
     }
 
     public synchronized void postJson(Context contexto, String url,final JSONObject jsonBody, final VolleyCallbackObject callback){
@@ -117,6 +132,7 @@ public class RealizaRequisicao {
                     @Override
                     public void onResponse(JSONObject response) {
                         callback.onSuccess(response);
+                        dialog.dismiss();
                         //this.notifyAll();
                     }
                 }, new Response.ErrorListener(){
@@ -124,6 +140,7 @@ public class RealizaRequisicao {
             @Override
             public void onErrorResponse(VolleyError error ) {
                 Log.i("ERROR", "onErrorResponse: " + error );
+                dialog.dismiss();
             }
         }){
             @Override
@@ -134,5 +151,8 @@ public class RealizaRequisicao {
             }
         };
         request.add(requisicao);
+        dialog = new ProgressDialog(contexto);
+        dialog.setMessage("Carregando....");
+        dialog.show();
     }
 }

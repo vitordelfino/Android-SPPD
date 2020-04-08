@@ -1,0 +1,12 @@
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.gitsecret/keys/random_seed
+app/src/main/java/com/app/sppd/Telas/MapActivity.java
+app/src/main/res/values/google_maps_api.xml

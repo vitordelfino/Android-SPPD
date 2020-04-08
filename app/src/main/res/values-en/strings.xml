@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TesteVolley</string>
+    <string name="alterar_senha">CHANGE PASSWORD</string>
+    <string name="ativar">ACTIVATE</string>
+    <string name="atualizar_dados">REFRESH DATA</string>
+    <string name="bairro">NEIGHBORHOOD</string>
+    <string name="carregar">CHARGE</string>
+    <string name="cep">ZIP CODE</string>
+    <string name="complemento">COMPLEMENT</string>
+    <string name="confirmacao_nova_senha">CONFIRMATION</string>
+    <string name="cpf">CPF</string>
+    <string name="deslogar">LOGOUT</string>
+    <string name="destino">TO:</string>
+    <string name="gerenciar_cartoes">Manage Cards</string>
+    <string name="historico_viagem">Travel history</string>
+    <string name="logar">LOGIN</string>
+    <string name="logradouro">STREET</string>
+    <string name="meia_passagem">Half tax</string>
+    <string name="municipio">CITY</string>
+    <string name="nascimento">BORN DATE</string>
+    <string name="nome">NAME</string>
+    <string name="nova_senha">NEW PASSWORD</string>
+    <string name="numero">NUMBER</string>
+    <string name="origem">FROM:</string>
+    <string name="passagem_comum">Normal Tax</string>
+    <string name="perfil">Profile</string>
+    <string name="recarga">Recharge</string>
+    <string name="regirstrar_se">REGISTER</string>
+    <string name="rg">RG</string>
+    <string name="saldo_em">Balance in:</string>
+    <string name="salvar">SAVE</string>
+    <string name="senha">PASSWORD</string>
+    <string name="simulador">Simulator</string>
+    <string name="simulador_viagem">TRAVEL SIMULATOR</string>
+    <string name="simular">SIMULATE</string>
+    <string name="total">Total</string>
+    <string name="usuario">USER</string>
+    <string name="valor">TAX</string>
+    <string name="gerenc_conta">Managment Account</string>
+    <string name="gerencia_cartoes">Managment Cards</string>
+    <string name="recarga_cartoes">Recharge Cards</string>
+    <string name="carregando">Loading...</string>
+    <string name="car_price">Travel Price by Car:</string>
+    <string name="travel_distance">Travel Distance</string>
+    <string name="pulition_label">pollution</string>
+    <string name="moedas">My coins</string>
+<string name="moedas_faltantes">X coins are missing to win a trip</string>
+<string name="pollution_label">Travel pollution by car:</string>
+<string name="watson">Analysis of feelings</string>
+<string name="voce_tem">You have</string>
+<string name="voce_sabia">did you know ?</string>
+<string name="title_activity_watson">watson</string>
+<string name="action_settings">settings</string>
+
+    <string-array name="spnPeriodo">
+        <item>All</item>
+        <item>Last Week</item>
+        <item>Last Month</item>
+    </string-array>
+    </resources>

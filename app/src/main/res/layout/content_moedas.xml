@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.app.sppd.Telas.Moedas"
+    tools:showIn="@layout/app_bar_moeda">
+
+    <TextView
+        android:id="@+id/comentarioTextView"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="@string/voce_tem"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="91dp"
+        android:layout_marginBottom="63dp"
+        android:layout_above="@+id/qtdMoedasTextView"
+        android:layout_alignLeft="@+id/qtdMoedasTextView"
+        android:layout_alignStart="@+id/qtdMoedasTextView" />
+
+    <TextView
+        android:id="@+id/qtdMoedasTextView"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/moedasfaltantesTextView"
+        android:layout_alignLeft="@+id/moedasfaltantesTextView"
+        android:layout_alignStart="@+id/moedasfaltantesTextView"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="99dp"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="36sp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="184dp" />
+
+    <TextView
+        android:id="@+id/moedasfaltantesTextView"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/moedas_faltantes"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="284dp"
+        android:layout_marginBottom="36dp"
+        android:layout_above="@+id/attMoedas"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/attMoedas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/moedasfaltantesTextView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/moedasfaltantesTextView"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:clickable="true"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_rotate"
+        android:onClick="atualizarMoedas"/>
+
+
+</RelativeLayout>

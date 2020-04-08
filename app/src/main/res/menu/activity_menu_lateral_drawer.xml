@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_gerenciar_perfil"
+            android:icon="@drawable/ic_account_circle_black_24px"
+            android:title="@string/perfil" />
+
+        <item
+            android:id="@+id/nav_simulador"
+            android:icon="@drawable/ic_directions_transit_black_24px"
+            android:title="@string/simulador" />
+
+        <!--<item-->
+            <!--android:id="@+id/nav_recarga_cartao"-->
+            <!--android:icon="@drawable/ic_coin"-->
+            <!--android:title="Recarregar Cartao"/>-->
+
+        <item
+            android:id="@+id/nav_gerenciar_cartoes"
+            android:icon="@drawable/ic_payment_black_24px"
+            android:title="@string/gerenciar_cartoes" />
+
+        <item
+            android:id="@+id/nav_viagens"
+            android:icon="@drawable/ic_swap_travel_24px"
+            android:title="@string/historico_viagem" />
+
+        <item
+            android:id="@+id/nav_moedas"
+            android:icon="@drawable/ic_coin"
+            android:title="@string/moedas" />
+
+        <item
+            android:id="@+id/nav_watsson"
+            android:icon="@drawable/ic_tag_faces_black_24dp"
+            android:title="@string/watson" />
+
+        <item
+            android:id="@+id/nav_voce_sabia"
+            android:icon="@drawable/ic_question_answer_black_24dp"
+            android:title="@string/voce_sabia" />
+
+
+
+
+    </group>
+</menu>

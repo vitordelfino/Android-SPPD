@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3f51b5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#ff4081</color>
+    <color name="color_recarga">#63df9b</color>
+    <color name="color_viagem">#e14747</color>
+    <color name="LinhaAzul">#1e10ee</color>
+    <color name="linha_azul">#1e10ee</color>
+    <color name="linha_verde">#0c7917</color>
+    <color name="linha_vermelha">#e01515</color>
+    <color name="linha_amarela">#e5dd40</color>
+    <color name="linha_lilás">#ad5bc8</color>
+    <color name="linha_laranja">#e87f16</color>
+    <color name="linha_rubi">#9f3180</color>
+    <color name="linha_diamante">#bcbcbc</color>
+    <color name="linha_esmeralda">#52cb92</color>
+    <color name="linha_turquesa">#0c9896</color>
+    <color name="linha_coral">#f06246</color>
+    <color name="linha_safira">#09266e</color>
+    <color name="linha_prata">#c0c0c0</color>
+    <color name="linha_gold">#ffd700</color>
+    <color name="linha_bronze">#cd7f32</color>
+    <color name="linha_rosa">#e76ce9</color>
+    <color name="linha_jade">#28c870</color>
+    <color name="linha_celeste">#0eb6df</color>
+</resources>

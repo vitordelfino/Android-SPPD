@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.app.sppd.Telas.Watson"
+    tools:showIn="@layout/app_bar_watson">
+
+    <com.github.mikephil.charting.charts.PieChart xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/chart"
+        android:layout_width="347dp"
+        android:layout_height="395dp"
+        android:padding="5dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"></com.github.mikephil.charting.charts.PieChart>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/updatewatsonFloat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_rotate"
+        tools:layout_editor_absoluteX="304dp"
+        tools:layout_editor_absoluteY="436dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/chart"
+        android:layout_alignEnd="@+id/chart"
+        android:layout_marginBottom="24dp" />
+
+</RelativeLayout>

@@ -1,0 +1,77 @@
+<resources>
+    <string name="app_name">TesteVolley</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login" translatable="false">Login</string>
+    <string name="title_activity_menu_latereal" translatable="false">MenuLatereal</string>
+    <string name="title_activity_watson">watson</string>
+
+
+
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="title_activity_cadastro_passageiro" translatable="false">CadastroPassageiro</string>
+    <string name="title_activity_menu_lateral" translatable="false">MenuLateral</string>
+    <string name="title_activity_recarga_cartao" translatable="false">RecargaCartao</string>
+    <string name="title_activity_gerenciar_conta" translatable="false">Gerenciar Conta</string>
+    <string name="title_activity_histo_saldo_cartao" translatable="false">HistoSaldoCartao</string>
+    <string name="title_activity_historico_viagem" translatable="false">HistoricoViagem</string>
+    <string name="facebook_app_id" translatable="false">168176483713235</string>
+    <string name="logar">LOGAR</string>
+    <string name="regirstrar_se">REGISTRAR-SE</string>
+    <string name="passagem_comum">Passagem comum</string>
+    <string name="meia_passagem">Meia passagem</string>
+    <string name="simulador_viagem">SIMULADOR DE VIAGENS</string>
+    <string name="origem">ORIGEM:</string>
+    <string name="destino">DESTINO:</string>
+    <string name="simular">SIMULAR</string>
+    <string name="nome">NOME</string>
+    <string name="cpf">CPF</string>
+    <string name="rg">RG</string>
+    <string name="cep">CEP</string>
+    <string name="logradouro">LOGRADOURO</string>
+    <string name="bairro">BAIRRO</string>
+    <string name="municipio">MUNICIPIO</string>
+    <string name="numero">NUMERO</string>
+    <string name="complemento">COMPLEMENTO</string>
+    <string name="nascimento">NASCIMENTO</string>
+    <string name="salvar">SALVAR</string>
+    <string name="nova_senha">NOVA SENHA</string>
+    <string name="confirmacao_nova_senha">CONFIRMAÇÃO SENHA</string>
+    <string name="alterar_senha">ALTERAR SENHA</string>
+    <string name="atualizar_dados">ATUALIZAR DADOS</string>
+    <string name="ativar">ATIVAR</string>
+    <string name="carregar">CARREGAR</string>
+    <string name="usuario">USUÁRIO</string>
+    <string name="senha">SENHA</string>
+    <string name="recarga">Recarga:</string>
+    <string name="valor">VALOR</string>
+    <string name="saldo_em">Saldo em:</string>
+    <string name="total">Total</string>
+    <string name="deslogar">DESLOGAR</string>
+    <string name="perfil">Perfil</string>
+    <string name="simulador">Simulador</string>
+    <string name="gerenciar_cartoes">Gerenciar Cartões</string>
+    <string name="historico_viagem">Histórico de Viagens</string>
+    <string name="gerencia_cartoes">Gerenciamento de Cartões</string>
+    <string name="gerenc_conta">Gerenciamento de Conta</string>
+    <string name="recarga_cartoes">Recarga de Cartões</string>
+    <string name="carregando">Carregando...</string>
+    <string name="moedas">Minhas moedas</string>
+    <string name="title_activity_moedas" translatable="false">Moedas</string>
+    <string name="voce_tem">Você tem ...</string>
+    <string name="moedas_faltantes">Faltam X moedas para ganhar uma viagem !!!</string>
+    <string name="car_price">Preço desta viagem de carro:</string>
+    <string name="pollution_label">Poluição via carro:</string>
+    <string name="travel_distance">Distância desta viagem</string>
+
+    <string-array name="spnPeriodo">
+        <item>Tudo</item>
+        <item>Última semana</item>
+        <item>Último mês</item>
+    </string-array>
+    <string name="title_activity_voce_sabia" translatable="false">VoceSabia</string>
+    <string name="voce_sabia">Você Sabia ?</string>
+    <string name="title_activity_map" translatable="false">MapActivity</string>
+    <string name="watson">Análise de Sentimentos</string>
+    <string name="pulition_label">poluicao</string>
+</resources>

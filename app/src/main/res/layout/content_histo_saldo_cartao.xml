@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.app.sppd.Telas.HistoSaldoCartao"
+    tools:showIn="@layout/activity_histo_saldo_cartao">
+
+    <ListView
+        android:id="@+id/lstHistorico"
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp" />
+
+    <Button
+        android:id="@+id/btnAtivar"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignLeft="@+id/lstHistorico"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/lstHistorico"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="49dp"
+        android:layout_marginStart="49dp"
+        android:background="@color/colorPrimary"
+        android:onClick="ativarDesativar"
+        android:text="@string/ativar"
+        android:textColor="@color/cardview_light_background" />
+
+    <Button
+        android:id="@+id/btnCarregar"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/btnAtivar"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="63dp"
+        android:layout_marginRight="63dp"
+        android:background="@color/colorPrimary"
+        android:onClick="carregar"
+        android:text="@string/carregar"
+        android:textColor="@color/cardview_light_background" />
+</RelativeLayout>

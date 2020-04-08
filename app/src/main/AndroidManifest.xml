@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.vitor.testevolley">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_sppd"
+        android:label="SPPD"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.app.sppd.Telas.Simulador"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.Login"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.CadastroPassageiro"
+            android:label="@string/title_activity_cadastro_passageiro"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.MenuLateral"
+            android:label="@string/title_activity_menu_lateral"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.InfoCartao"
+            android:label="@string/title_activity_recarga_cartao"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.GerenciarConta"
+            android:label="@string/title_activity_gerenciar_conta"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.HistoSaldoCartao"
+            android:label="@string/title_activity_histo_saldo_cartao"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.SppdSplashScreen"
+            android:theme="@style/AppCompat.TelaCheia">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.sppd.Telas.HistoricoViagem"
+            android:label="@string/title_activity_historico_viagem"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.RecargaCartao"
+            android:label="@string/title_activity_recarga_cartao"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.VoceSabia"
+            android:label="@string/title_activity_voce_sabia"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.MapActivity"
+            android:label="@string/title_activity_map"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.Moedas"
+            android:label="@string/title_activity_moedas"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.app.sppd.Telas.Watson"
+            android:label="@string/title_activity_watson"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+    </application>
+
+</manifest>

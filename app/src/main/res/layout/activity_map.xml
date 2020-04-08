@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <fragment
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        tools:context="com.app.sppd.Telas.MapActivity"/>
+
+    <TextView
+        android:id="@+id/txtPrecoCarro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lblPrecoCarro"
+        android:layout_alignBottom="@+id/lblPrecoCarro"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="right"
+        android:text=""
+
+        android:textColor="@color/colorPrimary"
+        android:textSize="19dp" />
+
+    <TextView
+        android:id="@+id/txtDistancia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txtPoluicao"
+        android:layout_alignEnd="@+id/txtPoluicao"
+        android:layout_alignRight="@+id/txtPoluicao"
+        android:layout_below="@+id/txtPrecoCarro"
+        android:gravity="right"
+        android:text=""
+
+        android:textColor="@color/colorPrimary"
+        android:textSize="19dp" />
+
+    <TextView
+        android:id="@+id/txtPoluicao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lblPoluaicao"
+        android:layout_alignBottom="@+id/lblPoluaicao"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="right"
+        android:text=""
+
+        android:textColor="@color/colorPrimary"
+        android:textSize="19dp" />
+
+    <TextView
+        android:id="@+id/lblPrecoCarro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/map"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="24dp"
+        android:text="@string/car_price"
+        android:textColor="@color/colorPrimary"
+        android:textSize="19dp" />
+
+    <TextView
+        android:id="@+id/lblDistancia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lblPrecoCarro"
+        android:layout_alignStart="@+id/lblPrecoCarro"
+        android:layout_below="@+id/lblPrecoCarro"
+        android:text="@string/travel_distance"
+        android:textColor="@color/colorPrimary"
+        android:textSize="19dp" />
+
+    <TextView
+        android:id="@+id/lblPoluaicao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lblDistancia"
+        android:layout_alignStart="@+id/lblDistancia"
+        android:layout_below="@+id/lblDistancia"
+        android:text="@string/pollution_label"
+        android:textColor="@color/colorPrimary"
+        android:textSize="19dp" />
+</RelativeLayout>

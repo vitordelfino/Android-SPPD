@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_gerenciar_conta"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.app.sppd.Telas.GerenciarConta"
+    tools:layout_editor_absoluteX="19dp"
+    tools:layout_editor_absoluteY="11dp"
+    tools:showIn="@layout/app_bar_gerenciar_conta">
+
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Vincular com facebook"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp" />
+
+    <EditText
+        android:id="@+id/txtNovaSenha_config"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/nova_senha"
+        android:inputType="textPassword"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/txtConfirmacaoSenha_config"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtNovaSenha_config"
+        android:layout_alignStart="@+id/txtNovaSenha_config"
+        android:layout_below="@+id/txtNovaSenha_config"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="@string/confirmacao_nova_senha"
+        android:inputType="textPassword"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/btnAlterarSenha"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/txtConfirmacaoSenha_config"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:background="@color/colorPrimary"
+        android:onClick="alterarSenha"
+        android:text="@string/alterar_senha"
+        android:textColor="@color/cardview_light_background" />
+
+    <Button
+        android:id="@+id/btnAtualizarCadastro"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/atualizar_dados"
+        android:textColor="@color/cardview_light_background" />
+
+
+</RelativeLayout>
